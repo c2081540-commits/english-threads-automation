@@ -1,28 +1,60 @@
-# English Threads Automation — Phase 1
+# English Threads Automation
 
-Validated master English-learning content is converted into a pending Threads parent-and-answer-reply queue. Phase 1 does not call external APIs or generate images.
+Instagramと共通の英語学習コンテンツを、Threads向けのクイズスレッドまたは通常投稿queueへ変換します。外部API、AI生成、AIレビュー、投稿処理は含みません。
 
-## Structure
+## 役割と構造
 
-- `data/master/`: canonical content JSON input
-- `data/queue/`: generated Threads queue JSON
-- `artifacts/images/`: planned location for future question images
-- `src/threads_automation/`: validation, paths, and queue builder
-- `scripts/`: queue generation and dry-run commands
-- `tests/`: standard-library unit tests
+- `data/master/quiz/`: Instagram共通クイズマスターの明示的な投入先
+- `data/master/normal/`: Threads本文と将来のStories文面を持つ通常投稿マスター
+- `assets/question_images/`: Instagram制作工程から明示投入する共通問題画像fixture
+- `config/quiz_hooks.json`: カテゴリ別の短い親フック候補
+- `data/queue/`: quiz/normalの生成済みqueue
+- `src/threads_automation/`: 検証、共通マスター照合、Threads変換
+- `scripts/`: queue生成とdry-run
+- `tests/`: 標準ライブラリの単体・統合テスト
 
-## Run
+## パス規約
 
-Python 3.10 or newer is required. From any current directory:
+全パスは解決済み`__file__`からrepo rootを特定します。クイズマスター、通常投稿マスター、問題画像、設定は固定ディレクトリ直下だけを許可し、探索やfallbackを行いません。コードにユーザー固有の絶対パスはありません。
+
+クイズ生成時は、固定された兄弟repo `english-instagram-automation/data/master/` の正本と `content_id`、`question`、`choices`、`best_answer`、`answer_type`を照合します。Threads側で正解・ヒント・解説を新規生成しません。問題画像は実行時にrepo間参照せず、制作工程が同一画像を`assets/question_images/`へ明示投入します。
+
+## 実行
+
+Python 3.9以降。任意のカレントディレクトリから実行できます。
 
 ```bash
-python3 /absolute/path/to/english-threads-automation/scripts/build_queue.py ENG-000001
-python3 /absolute/path/to/english-threads-automation/scripts/dry_run.py ENG-000001
+python3 /absolute/path/to/english-threads-automation/scripts/build_queue.py quiz ENG-000003
+python3 /absolute/path/to/english-threads-automation/scripts/build_queue.py normal ENG-100001
+python3 /absolute/path/to/english-threads-automation/scripts/dry_run.py ENG-000003
+python3 /absolute/path/to/english-threads-automation/scripts/dry_run.py ENG-100001
 python3 -m unittest discover -s /absolute/path/to/english-threads-automation/tests -v
 ```
 
-All paths are derived from each script/module's resolved `__file__`. Inputs are accepted only from this repository's `data/master`; missing or invalid data stops processing without fallback or automatic correction.
+## Quiz queue
 
-## Future phases
+親本文は問題を繰り返さず、`config/quiz_hooks.json`のカテゴリ候補から`content_id`により決定的に選択します。架空の正答率・多数派・ネイティブ限定などの社会的証明はPythonで拒否します。
 
-Future work may add image rendering/generation, Threads API publishing, scheduled Codex generation, insights, and optimization. These are intentionally absent from Phase 1.
+子投稿は共通マスターだけから、`考えるポイント → 選択肢記号付き正解 → 短い解説 → 必要な補足`へ整形します。親と回答は同じ`content_id`を持つ1つの完成スレッドとしてqueueに保存します。回答遅延は未実装です。
+
+## Normal queueとStories共通化
+
+通常投稿マスターは以下を保持します。
+
+- `content_id`
+- `content_type: normal`
+- `theme`
+- `threads_text`
+- `story_headline`
+- `story_body`
+- `publish_at`
+
+Threads本文とStories文面を別々に生成せず、同じマスターから各出力へ変換します。
+
+## 無料品質チェック
+
+Pythonで必須項目、文字数、content ID、正答一致、問題画像存在、禁止フック、Instagram正本との共通項目一致を検査します。英語・日本語・素材画像のAIレビューはInstagram側で準備した将来の共通1回レビュー結果を利用し、Threads専用AIレビューは追加しません。
+
+## 将来実装
+
+Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析、自動最適化、Instagram Storiesテンプレートは今回の対象外です。

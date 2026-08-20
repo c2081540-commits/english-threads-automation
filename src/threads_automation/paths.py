@@ -8,9 +8,11 @@ NORMAL_MASTER_DIR = MASTER_DIR / "normal"
 QUEUE_DIR = REPO_ROOT / "data" / "queue"
 IMAGE_DIR = REPO_ROOT / "artifacts" / "images"
 QUESTION_IMAGE_DIR = REPO_ROOT / "assets" / "question_images"
+ANSWER_IMAGE_DIR = REPO_ROOT / "assets" / "answer_images"
 HOOK_CONFIG_PATH = REPO_ROOT / "config" / "quiz_hooks.json"
 INSTAGRAM_REPO_ROOT = WORKSPACE_ROOT / "english-instagram-automation"
 INSTAGRAM_MASTER_DIR = INSTAGRAM_REPO_ROOT / "data" / "master"
+INSTAGRAM_IMAGE_DIR = INSTAGRAM_REPO_ROOT / "artifacts" / "images"
 
 
 def require_file(path: Path) -> Path:

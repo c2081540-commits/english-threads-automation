@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "学校で習ったはず。覚えてる？",
   "question_image": "assets/question_images/ENG-000025-question.png",
+  "answer_image": "assets/answer_images/ENG-000025-answer.png",
   "answer_text": "💡 now に注目。\n\n✅ 正解は B. are eating\n\n今している動作には現在進行形を使います。\n\nWe are eating dinner now.\n＝今、夕食を食べています。",
   "publish_at": "2026-08-23T09:30:00+09:00",
   "status": "pending",

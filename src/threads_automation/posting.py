@@ -73,9 +73,11 @@ def dry_run(queue: dict, resolver: PublicMediaResolver) -> str:
         return (f"{queue['content_id']} | threads | {queue['publish_at']} | Normal | asset=none | "
                 "text=yes | text container -> publish")
     asset = resolver.resolve(queue["question_image"])
+    answer_asset = resolver.resolve(queue["answer_image"])
     return (f"{queue['content_id']} | threads | {queue['publish_at']} | image Quiz | asset={asset} | "
+            f"answer_asset={answer_asset} | "
             "parent_text=yes | reply=yes | image parent container -> publish parent -> "
-            "reply text container(reply_to_id) -> publish reply")
+            "reply image container(reply_to_id) -> publish reply")
 
 
 def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
@@ -99,6 +101,7 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             remote_id = client.publish(container)
         else:
             image_url = resolver.resolve(queue["question_image"])
+            answer_image_url = resolver.resolve(queue["answer_image"])
             if parent_receipt_path.is_file():
                 parent_id = json.loads(parent_receipt_path.read_text(encoding="utf-8"))["remote_post_id"]
             else:
@@ -116,7 +119,8 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             queue.update(parent_status="posted", parent_post_id=parent_id)
             _write_json_atomic(queue_path, queue)
             try:
-                reply_container = client.create_text_container(queue["answer_text"], reply_to_id=parent_id)
+                reply_container = client.create_image_container(
+                    queue["answer_text"], answer_image_url, reply_to_id=parent_id)
                 reply_id = client.publish(reply_container)
             except PostingError as exc:
                 queue.update(status="failed", answer_status="failed",

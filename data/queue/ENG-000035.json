@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "パッと答えられる？",
   "question_image": "assets/question_images/ENG-000035-question.png",
+  "answer_image": "assets/answer_images/ENG-000035-answer.png",
   "answer_text": "💡 he と現在形に注目。\n\n✅ 正解は A. He plays tennis.\n\nhe の現在形には動詞へ -s を付けます。\n\nHe works on Fridays.\n＝彼は金曜日に働きます。",
   "publish_at": "2026-08-24T20:30:00+09:00",
   "status": "pending",

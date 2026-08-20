@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "どれが入る？",
   "question_image": "assets/question_images/ENG-000018-question.png",
+  "answer_image": "assets/answer_images/ENG-000018-answer.png",
   "answer_text": "💡 主語は they。-s は必要？\n\n✅ 正解は A. live\n\nthey の現在形には -s を付けません。\n\nThey live near the station.\n＝彼らは駅の近くに住んでいます。",
   "publish_at": "2026-08-22T07:00:00+09:00",
   "status": "pending",

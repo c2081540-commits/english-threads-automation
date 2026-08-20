@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "学校で習ったはず。覚えてる？",
   "question_image": "assets/question_images/ENG-000021-question.png",
+  "answer_image": "assets/answer_images/ENG-000021-answer.png",
   "answer_text": "💡 後ろに lunch が続く形は？\n\n✅ 正解は A. after\n\n名詞の前には after を置けます。\n\nLet's talk after lunch.\n＝昼食後に話しましょう。\n\nafter lunch → 昼食後\nlater → あとで",
   "publish_at": "2026-08-22T15:00:00+09:00",
   "status": "pending",

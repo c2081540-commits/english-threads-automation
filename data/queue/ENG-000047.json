@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一番合う単語は？",
   "question_image": "assets/question_images/ENG-000047-question.png",
+  "answer_image": "assets/answer_images/ENG-000047-answer.png",
   "answer_text": "💡 break と一緒に使う動詞は？\n\n✅ 正解は A. take a break\n\n「休憩する」は take a break です。\n\nLet's take a short break.\n＝少し休憩しましょう。",
   "publish_at": "2026-08-26T20:30:00+09:00",
   "status": "pending",

@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "パッと答えられる？",
   "question_image": "assets/question_images/ENG-000043-question.png",
+  "answer_image": "assets/answer_images/ENG-000043-answer.png",
   "answer_text": "💡 2020は期間？開始時点？\n\n✅ 正解は A. since\n\n開始時点には since を使います。\n\nI've worked here since April.\n＝4月からここで働いています。\n\nsince 2020 → 2020年から\nfor five years → 5年間",
   "publish_at": "2026-08-26T09:30:00+09:00",
   "status": "pending",

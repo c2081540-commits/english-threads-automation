@@ -92,9 +92,12 @@ class ThreadsMetaClient:
             fields["reply_to_id"] = reply_to_id
         return self._post(f"{self.secrets.user_id}/threads", fields, "CONTAINER_CREATION_FAILURE")
 
-    def create_image_container(self, text: str, image_url: str) -> str:
-        return self._post(f"{self.secrets.user_id}/threads",
-                          {"media_type": "IMAGE", "text": text, "image_url": image_url},
+    def create_image_container(self, text: str, image_url: str,
+                               reply_to_id: str | None = None) -> str:
+        fields = {"media_type": "IMAGE", "text": text, "image_url": image_url}
+        if reply_to_id:
+            fields["reply_to_id"] = reply_to_id
+        return self._post(f"{self.secrets.user_id}/threads", fields,
                           "CONTAINER_CREATION_FAILURE")
 
     def publish(self, creation_id: str) -> str:

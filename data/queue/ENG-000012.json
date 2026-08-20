@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ、意外と迷う。",
   "question_image": "assets/question_images/ENG-000012-question.png",
+  "answer_image": "assets/answer_images/ENG-000012-answer.png",
   "answer_text": "💡 主語は Tom。動詞の形は？\n\n✅ 正解は B. goes\n\nTom の現在形には -s を付けます。\n\nTom goes home at six.\n＝トムは6時に帰宅します。",
   "publish_at": "2026-08-21T07:00:00+09:00",
   "status": "pending",

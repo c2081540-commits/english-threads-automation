@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .paths import (HOOK_CONFIG_PATH, INSTAGRAM_MASTER_DIR, NORMAL_MASTER_DIR,
-                    QUESTION_IMAGE_DIR, QUIZ_MASTER_DIR, REPO_ROOT,
+                    ANSWER_IMAGE_DIR, QUESTION_IMAGE_DIR, QUIZ_MASTER_DIR, REPO_ROOT,
                     require_direct_file)
 from .validation import validate as validate_quiz_master
 
@@ -72,6 +72,12 @@ def question_image_path(content_id: str, allow_waiting: bool = False) -> tuple[P
     if allow_waiting and not path.is_file():
         return None, None
     source = require_direct_file(path, QUESTION_IMAGE_DIR, "question image")
+    return source, source.relative_to(REPO_ROOT).as_posix()
+
+
+def answer_image_path(content_id: str) -> tuple[Path, str]:
+    path = ANSWER_IMAGE_DIR / f"{content_id}-answer.png"
+    source = require_direct_file(path, ANSWER_IMAGE_DIR, "answer image")
     return source, source.relative_to(REPO_ROOT).as_posix()
 
 

@@ -63,6 +63,24 @@ class FinalThreadsScheduleTests(unittest.TestCase):
             self.assertEqual(threads_image.read_bytes(), instagram_image.read_bytes())
             self.assertNotIn("placeholder", queue["question_image"])
 
+    def test_all_42_answer_images_are_identical_to_instagram(self):
+        quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
+        self.assertEqual(len(quizzes), 42)
+        for queue in quizzes:
+            content_id = queue["content_id"]
+            threads_image = REPO_ROOT / queue["answer_image"]
+            instagram_image = IG_ROOT / "artifacts" / "images" / f"{content_id}-answer.png"
+            self.assertEqual(threads_image.read_bytes(), instagram_image.read_bytes())
+            threads_question = REPO_ROOT / queue["question_image"]
+            instagram_question = IG_ROOT / "artifacts" / "images" / f"{content_id}-question.png"
+            self.assertEqual(threads_question.read_bytes(), instagram_question.read_bytes())
+            local = json.loads((REPO_ROOT / "data" / "master" / "quiz" /
+                                f"{content_id}.json").read_text())
+            instagram = json.loads((IG_ROOT / "data" / "master" /
+                                    f"{content_id}.json").read_text())
+            self.assertEqual(local["content_id"], instagram["content_id"])
+            self.assertEqual(local["best_answer"], instagram["best_answer"])
+
     def test_past_slots_are_held_and_posted_is_not_reposted(self):
         held = [queue for queue in self.queues if queue["execution_eligibility"] == "past_due_hold"]
         self.assertEqual([queue["content_id"] for queue in held], ["ENG-000006", "ENG-000007", "ENG-000008"])

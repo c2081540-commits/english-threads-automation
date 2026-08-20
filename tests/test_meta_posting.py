@@ -21,9 +21,9 @@ class FakeThreadsClient:
         self.publish_count = 0
         self.fail_publish_number = fail_publish_number
 
-    def create_image_container(self, text, url):
-        self.calls.append(("image_parent", text, url))
-        return "parent-container"
+    def create_image_container(self, text, url, reply_to_id=None):
+        self.calls.append(("image_reply" if reply_to_id else "image_parent", text, url, reply_to_id))
+        return "reply-container" if reply_to_id else "parent-container"
 
     def create_text_container(self, text, reply_to_id=None):
         self.calls.append(("text", text, reply_to_id))
@@ -60,7 +60,11 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         target = self.queue_copy("ENG-000009")
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver, datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "text", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "image_reply", "publish"])
+        reply_call = client.calls[2]
+        self.assertTrue(reply_call[2].endswith("ENG-000009-answer.png"))
+        self.assertIn("✅ 正解は A. by Friday", reply_call[1])
+        self.assertEqual(reply_call[3], "parent-id")
         self.assertEqual(result["status"], "posted")
         self.assertEqual(result["parent_post_id"], "parent-id")
         self.assertEqual(result["remote_reply_id"], "reply-id")
@@ -96,7 +100,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver,
                                   datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["image_reply", "publish"])
         self.assertEqual(result["parent_post_id"], "existing-parent-id")
 
     def test_normal_success(self):
@@ -110,7 +114,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         normal = json.loads(self.queue_copy("ENG-100002").read_text())
         text = posting.dry_run(quiz, self.resolver)
         self.assertIn("publish parent", text)
-        self.assertIn("reply text container(reply_to_id)", text)
+        self.assertIn("reply image container(reply_to_id)", text)
         self.assertIn("text container -> publish", posting.dry_run(normal, self.resolver))
 
     def test_missing_secret_media_and_due_exclusions(self):

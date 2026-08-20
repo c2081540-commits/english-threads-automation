@@ -96,7 +96,11 @@ python3 scripts/run_due_post.py --now 2026-08-20T16:00:00+09:00
 Threads APIは公式の `https://graph.threads.net` をversion pathなしで使用します。Instagram用の
 `META_GRAPH_API_VERSION` はThreads URLへ適用しません。
 
-Quizは画像付き親container作成・親publish・`reply_to_id`付き回答container作成・回答publishの順です。親成功後に回答が失敗した場合は、`parent_status: posted`と`parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
+Quizは問題画像付き親container作成・親publish・回答画像と短い回答文を持つIMAGE container作成・
+`reply_to_id`付き回答publishの順です。問題・回答画像はInstagramと同一バイトの既存画像を使用し、
+Threads専用画像は生成しません。親成功後に回答が失敗した場合は、`parent_status: posted`と
+`parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。
+成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
 
 問題画像URLは公開repoのGitHub Raw HTTPSを `config/media_public.json` から生成します。live時は匿名HEAD取得を検査し、repoのprivate化、404、非HTTPSでは`BLOCKED_MEDIA_URL`で停止します。安全な一時的通信エラーだけ最大2回retryし、認証・データ・media URLエラーはretryしません。
 

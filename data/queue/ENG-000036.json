@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ、意外と迷う。",
   "question_image": "assets/question_images/ENG-000036-question.png",
+  "answer_image": "assets/answer_images/ENG-000036-answer.png",
   "answer_text": "💡 can の後ろはどの形？\n\n✅ 正解は A. speak\n\ncan の後ろには動詞の原形を置きます。\n\nI can speak a little English.\n＝英語を少し話せます。",
   "publish_at": "2026-08-25T07:00:00+09:00",
   "status": "pending",

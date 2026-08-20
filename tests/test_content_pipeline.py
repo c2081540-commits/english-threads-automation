@@ -26,6 +26,7 @@ class ContentPipelineTests(unittest.TestCase):
             self.assertEqual(queue["answer_status"], "pending")
             self.assertIsNone(queue["parent_post_id"])
             self.assertTrue((REPO_ROOT / queue["question_image"]).is_file())
+            self.assertTrue((REPO_ROOT / queue["answer_image"]).is_file())
             self.assertIn("💡 ", queue["answer_text"])
             self.assertIn("✅ 正解は ", queue["answer_text"])
 
@@ -48,6 +49,7 @@ class ContentPipelineTests(unittest.TestCase):
         quiz = format_dry_run(build_quiz_queue("ENG-000003"))
         self.assertIn("parent:", quiz)
         self.assertIn("image:", quiz)
+        self.assertIn("answer image:", quiz)
         self.assertIn("✅ 正解は B. for", quiz)
         normal = format_dry_run(build_normal_queue("ENG-100001"))
         self.assertIn("DRY RUN Threads normal", normal)

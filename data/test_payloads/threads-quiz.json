@@ -3,5 +3,6 @@
   "content_type": "test_quiz",
   "parent_text": "API接続テスト",
   "question_image": "assets/question_images/ENG-000009-question.png",
+  "answer_image": "assets/answer_images/ENG-000009-answer.png",
   "reply_text": "API接続テスト：返信確認"
 }

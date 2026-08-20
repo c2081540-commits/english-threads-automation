@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from .content import (build_answer_text, load_normal_master, load_quiz_master,
+from .content import (answer_image_path, build_answer_text, load_normal_master, load_quiz_master,
                       question_image_path, select_hook)
 from .paths import QUEUE_DIR
 
@@ -9,6 +9,7 @@ from .paths import QUEUE_DIR
 def build_quiz_queue(content_id: str) -> dict:
     content = load_quiz_master(content_id)
     _, image_path = question_image_path(content_id, allow_waiting=content["visual_required"] is True)
+    _, answer_path = answer_image_path(content_id)
     waiting = content["visual_required"] is True and image_path is None
     return {
         "content_id": content_id,
@@ -16,6 +17,7 @@ def build_quiz_queue(content_id: str) -> dict:
         "content_type": "quiz",
         "parent_text": select_hook(content["category"], content_id),
         "question_image": image_path,
+        "answer_image": answer_path,
         "answer_text": build_answer_text(content),
         "publish_at": content["publish_at"],
         "status": "pending",
@@ -62,6 +64,7 @@ def format_dry_run(queue: dict) -> str:
             f"status: {queue['parent_status']}",
             f"parent: {queue['parent_text']}",
             f"image: {queue['question_image']}",
+            f"answer image: {queue['answer_image']}",
             "answer:",
             queue["answer_text"],
         ])

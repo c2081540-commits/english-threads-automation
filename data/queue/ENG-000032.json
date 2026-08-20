@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一番合う単語は？",
   "question_image": "assets/question_images/ENG-000032-question.png",
+  "answer_image": "assets/answer_images/ENG-000032-answer.png",
   "answer_text": "💡 階段で何をしている？\n\n✅ 正解は A. climbing\n\nclimb は「登る」です。\n\nHe is climbing the stairs.\n＝彼は階段を登っています。",
   "publish_at": "2026-08-24T12:00:00+09:00",
   "status": "pending",

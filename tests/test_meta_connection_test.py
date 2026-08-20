@@ -18,8 +18,11 @@ from threads_automation.preflight import run_preflight
 
 class FixtureClient:
     def __init__(self): self.calls = []
-    def create_image_container(self, text, url): self.calls.append(("parent", text, url)); return "parent-container-id"
-    def create_text_container(self, text, reply_to_id=None): self.calls.append(("reply", text, reply_to_id)); return "reply-container-id"
+    def create_image_container(self, text, url, reply_to_id=None):
+        self.calls.append(("image", text, url, reply_to_id))
+        return "reply-container-id" if reply_to_id else "parent-container-id"
+    def create_text_container(self, text, reply_to_id=None):
+        raise AssertionError("Quiz reply must not regress to TEXT-only")
     def publish(self, creation_id):
         self.calls.append(("publish", creation_id))
         return "parent-post-id" if creation_id == "parent-container-id" else "reply-post-id"

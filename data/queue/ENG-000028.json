@@ -4,6 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ、意外と迷う。",
   "question_image": "assets/question_images/ENG-000028-question.png",
+  "answer_image": "assets/answer_images/ENG-000028-answer.png",
   "answer_text": "💡 時刻の前に置く語は？\n\n✅ 正解は A. at\n\n具体的な時刻には at を使います。\n\nThe meeting starts at three.\n＝会議は3時に始まります。\n\nat 3 p.m. → 3時に\non Monday → 月曜に",
   "publish_at": "2026-08-23T18:00:00+09:00",
   "status": "pending",

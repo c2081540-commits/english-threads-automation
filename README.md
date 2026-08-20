@@ -77,4 +77,23 @@ Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析
 
 Instagramと同一の `config/schedule.json` を使用し、`python3 scripts/finalize_week_schedule.py YYYY-MM-DD` で確認済み49件をqueueへ確定します。Quizは親投稿と回答返信を同じ `content_id` で保持し、両方の初期状態を `pending` にします。queueは `content_id / platform / publish_at / status` を持ち、`posted` は再投稿対象になりません。
 
-実行時点で過去の枠は日時を変更せず `execution_eligibility: past_due_hold` として保持します。翌日への詰め込みや時刻変更は行いません。Threads API投稿処理は未実装です。
+実行時点で過去の枠は日時を変更せず `execution_eligibility: past_due_hold` として保持します。翌日への詰め込みや時刻変更は行いません。自動実行・定期実行は未接続です。
+
+## Phase 6 Meta投稿クライアント
+
+`scripts/run_due_post.py` はqueueから `pending + scheduled + publish_at <= now` の先頭1件だけを選びます。引数なしはAPIを呼ばないdry-runで、`--live` を明示した場合だけThreads APIへ接続します。
+
+```bash
+python3 scripts/run_due_post.py --now 2026-08-20T16:00:00+09:00
+# 本番接続工程でのみ: python3 scripts/run_due_post.py --live
+```
+
+必要な環境変数（値はrepoへ保存しません）：
+
+- `THREADS_ACCESS_TOKEN`
+- `THREADS_USER_ID`
+- `META_GRAPH_API_VERSION`
+
+Quizは画像付き親container作成・親publish・`reply_to_id`付き回答container作成・回答publishの順です。親成功後に回答が失敗した場合は、`parent_status: posted`と`parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
+
+問題画像URLは公開repoのGitHub Raw HTTPSを `config/media_public.json` から生成します。live時は匿名HEAD取得を検査し、repoのprivate化、404、非HTTPSでは`BLOCKED_MEDIA_URL`で停止します。安全な一時的通信エラーだけ最大2回retryし、認証・データ・media URLエラーはretryしません。

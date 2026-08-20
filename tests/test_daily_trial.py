@@ -33,11 +33,12 @@ class DailyTrialTests(unittest.TestCase):
         instagram_normal = (instagram_dir / "normal" / "ENG-100002.json").read_bytes()
         self.assertEqual(local_normal, instagram_normal)
 
-    def test_visual_quiz_waits_without_dummy_image(self):
-        queue = build_quiz_queue("ENG-000008")
-        self.assertIsNone(queue["question_image"])
-        self.assertEqual(queue["parent_status"], "WAITING_FOR_VISUAL")
-        self.assertEqual(queue["answer_status"], "WAITING_FOR_PARENT")
+    def test_two_visual_quizzes_use_explicit_shared_images(self):
+        for content_id in ("ENG-000008", "ENG-000010"):
+            queue = build_quiz_queue(content_id)
+            self.assertEqual(queue["question_image"], f"assets/question_images/{content_id}-question.png")
+            self.assertEqual(queue["parent_status"], "pending")
+            self.assertEqual(queue["answer_status"], "pending")
 
     def test_ready_quiz_and_normal_dry_runs(self):
         quiz_text = format_dry_run(build_quiz_queue("ENG-000006"))

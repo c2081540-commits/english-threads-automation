@@ -64,3 +64,7 @@ Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析
 `ENG-000006`〜`ENG-000011` はInstagramと同一のquizマスターからThreads表示へ変換し、`ENG-100002` は同一normalマスターから通常投稿へ変換します。既存の `scripts/build_queue.py` と `scripts/dry_run.py` で確認できます。
 
 画像素材がまだないquizはダミー画像や別パスを探索せず、`question_image: null`、`parent_status: WAITING_FOR_VISUAL` で停止します。Threads専用AIレビューは追加せず、共通の7件一括レビュー結果を利用します。
+
+完成済みのvisual問題はInstagramのPillowレンダラーが生成した同一問題画像を `assets/question_images/` へ明示投入します。Phase 3試作では `ENG-000008` と `ENG-000010` がこの状態で、Threads用の別画像は生成しません。
+
+コンテンツの最上位ペルソナは「英語学習に一度挫折し、基礎からやり直したい日本人社会人」です。難化、資格試験的なひっかけ、長い質問と長い回答の比較を品質とは扱いません。Instagram側の `config/content_quality.json` と共通一括レビュー結果を正とし、Threads側で難しい説明や別問題を追加しません。

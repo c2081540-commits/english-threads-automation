@@ -8,7 +8,8 @@ from .paths import QUEUE_DIR
 
 def build_quiz_queue(content_id: str) -> dict:
     content = load_quiz_master(content_id)
-    _, image_path = question_image_path(content_id)
+    _, image_path = question_image_path(content_id, allow_waiting=content["visual_required"] is True)
+    waiting = content["visual_required"] is True and image_path is None
     return {
         "content_id": content_id,
         "content_type": "quiz",
@@ -16,8 +17,8 @@ def build_quiz_queue(content_id: str) -> dict:
         "question_image": image_path,
         "answer_text": build_answer_text(content),
         "publish_at": content["publish_at"],
-        "parent_status": "pending",
-        "answer_status": "pending",
+        "parent_status": "WAITING_FOR_VISUAL" if waiting else "pending",
+        "answer_status": "WAITING_FOR_PARENT" if waiting else "pending",
         "parent_post_id": None,
     }
 
@@ -53,6 +54,7 @@ def format_dry_run(queue: dict) -> str:
     if queue.get("content_type") == "quiz":
         return "\n".join([
             f"DRY RUN Threads quiz | {queue['content_id']} | {queue['publish_at']}",
+            f"status: {queue['parent_status']}",
             f"parent: {queue['parent_text']}",
             f"image: {queue['question_image']}",
             "answer:",

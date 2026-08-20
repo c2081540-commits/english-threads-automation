@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import re
 from datetime import datetime
@@ -65,8 +67,10 @@ def select_hook(category: str, content_id: str) -> str:
     return candidates[number % len(candidates)]
 
 
-def question_image_path(content_id: str) -> tuple[Path, str]:
+def question_image_path(content_id: str, allow_waiting: bool = False) -> tuple[Path | None, str | None]:
     path = QUESTION_IMAGE_DIR / f"{content_id}-question.png"
+    if allow_waiting and not path.is_file():
+        return None, None
     source = require_direct_file(path, QUESTION_IMAGE_DIR, "question image")
     return source, source.relative_to(REPO_ROOT).as_posix()
 

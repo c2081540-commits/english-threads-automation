@@ -58,3 +58,9 @@ Pythonで必須項目、文字数、content ID、正答一致、問題画像存�
 ## 将来実装
 
 Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析、自動最適化、Instagram Storiesテンプレートは今回の対象外です。
+
+## Phase 3 日次試作
+
+`ENG-000006`〜`ENG-000011` はInstagramと同一のquizマスターからThreads表示へ変換し、`ENG-100002` は同一normalマスターから通常投稿へ変換します。既存の `scripts/build_queue.py` と `scripts/dry_run.py` で確認できます。
+
+画像素材がまだないquizはダミー画像や別パスを探索せず、`question_image: null`、`parent_status: WAITING_FOR_VISUAL` で停止します。Threads専用AIレビューは追加せず、共通の7件一括レビュー結果を利用します。

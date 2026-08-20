@@ -1,10 +1,13 @@
 {
   "content_id": "ENG-000009",
+  "platform": "threads",
   "content_type": "quiz",
   "parent_text": "学校で習ったはず。覚えてる？",
   "question_image": "assets/question_images/ENG-000009-question.png",
   "answer_text": "💡 金曜日が「期限」なのがポイント。\n\n✅ 正解は A. by Friday\n\nby Friday は「金曜までに完了」です。\n\nI'll send it by Friday.\n＝金曜までに送ります。\n\nby Friday → 金曜までに完了\nuntil Friday → 金曜まで継続",
   "publish_at": "2026-08-20T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null

@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000030",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "どれが入る？",
+  "question_image": "assets/question_images/ENG-000030-question.png",
+  "answer_text": "💡 後ろの名詞は単数？\n\n✅ 正解は A. is\n\n単数の a bank には There is を使います。\n\nThere is a cafe nearby.\n＝近くにカフェがあります。",
+  "publish_at": "2026-08-24T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

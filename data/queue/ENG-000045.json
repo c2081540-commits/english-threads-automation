@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000045",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "学校で習ったはず。覚えてる？",
+  "question_image": "assets/question_images/ENG-000045-question.png",
+  "answer_text": "💡 曜日を含む日の前は？\n\n✅ 正解は A. on\n\n曜日を含む日には on を使います。\n\nLet's meet on Friday.\n＝金曜日に会いましょう。\n\non Monday → 月曜に\nat nine → 9時に",
+  "publish_at": "2026-08-26T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

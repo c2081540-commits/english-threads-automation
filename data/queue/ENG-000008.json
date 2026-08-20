@@ -1,10 +1,13 @@
 {
   "content_id": "ENG-000008",
+  "platform": "threads",
   "content_type": "quiz",
   "parent_text": "一番合う単語は？",
   "question_image": "assets/question_images/ENG-000008-question.png",
   "answer_text": "💡 袖に起きている動きは？\n\n✅ 正解は A. rolling up\n\nroll up ＝ 巻き上げる、まくる\n\nHe rolled up his sleeves.\n＝彼は袖をまくりました。",
   "publish_at": "2026-08-20T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null

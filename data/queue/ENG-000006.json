@@ -1,10 +1,13 @@
 {
   "content_id": "ENG-000006",
+  "platform": "threads",
   "content_type": "quiz",
   "parent_text": "どれが入る？",
   "question_image": "assets/question_images/ENG-000006-question.png",
   "answer_text": "💡 look forward to は、かたまりで考えよう。\n\n✅ 正解は B. seeing\n\nlook forward to の後ろは動名詞です。\n\nI'm looking forward to seeing you.\n＝お会いするのを楽しみにしています。",
-  "publish_at": "2026-08-20T07:30:00+09:00",
+  "publish_at": "2026-08-20T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null

@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000024",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "これ、意外と迷う。",
+  "question_image": "assets/question_images/ENG-000024-question.png",
+  "answer_text": "💡 than の前はどの形？\n\n✅ 正解は B. heavier\n\n2つを比べるときは比較級を使います。\n\nThis box is heavier than that one.\n＝この箱はあの箱より重いです。",
+  "publish_at": "2026-08-23T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

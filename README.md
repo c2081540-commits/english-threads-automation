@@ -68,3 +68,13 @@ Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析
 完成済みのvisual問題はInstagramのPillowレンダラーが生成した同一問題画像を `assets/question_images/` へ明示投入します。Phase 3試作では `ENG-000008` と `ENG-000010` がこの状態で、Threads用の別画像は生成しません。
 
 コンテンツの最上位ペルソナは「英語学習に一度挫折し、基礎からやり直したい日本人社会人」です。難化、資格試験的なひっかけ、長い質問と長い回答の比較を品質とは扱いません。Instagram側の `config/content_quality.json` と共通一括レビュー結果を正とし、Threads側で難しい説明や別問題を追加しません。
+
+7日量産テストではInstagram側の共通マスター42件とnormal 7件をそのままqueueへ変換します。完成問題画像があるquizは通常の親＋回答queue、素材待ちのquizは `WAITING_FOR_VISUAL` となります。Threads独自の原稿・画像・AIレビューは生成しません。
+
+シチュエーション問題の `situation_purpose` と `response_family`、Normal投稿の `normal_category` はInstagram側の週次品質検査結果をそのまま共有します。Threads側では別の教材内容や判定基準を生成しません。
+
+## 正式投稿スケジュール
+
+Instagramと同一の `config/schedule.json` を使用し、`python3 scripts/finalize_week_schedule.py YYYY-MM-DD` で確認済み49件をqueueへ確定します。Quizは親投稿と回答返信を同じ `content_id` で保持し、両方の初期状態を `pending` にします。queueは `content_id / platform / publish_at / status` を持ち、`posted` は再投稿対象になりません。
+
+実行時点で過去の枠は日時を変更せず `execution_eligibility: past_due_hold` として保持します。翌日への詰め込みや時刻変更は行いません。Threads API投稿処理は未実装です。

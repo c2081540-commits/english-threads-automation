@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000026",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "一番合う単語は？",
+  "question_image": "assets/question_images/ENG-000026-question.png",
+  "answer_text": "💡 カップの中を見てみよう。\n\n✅ 正解は A. empty\n\nempty は「空の」です。\n\nMy cup is empty.\n＝私のカップは空です。",
+  "publish_at": "2026-08-23T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

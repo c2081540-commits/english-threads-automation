@@ -1,10 +1,13 @@
 {
   "content_id": "ENG-000007",
+  "platform": "threads",
   "content_type": "quiz",
   "parent_text": "パッと答えられる？",
   "question_image": "assets/question_images/ENG-000007-question.png",
   "answer_text": "💡 office は「地点」？それとも「地域」？\n\n✅ 正解は A. at\n\n建物や地点には arrive at を使います。\n\nWe arrived at the station.\n＝駅に着きました。\n\nat → 駅・会社などの地点\nin → 東京・日本などの地域",
   "publish_at": "2026-08-20T09:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null

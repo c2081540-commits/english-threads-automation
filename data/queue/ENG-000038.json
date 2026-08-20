@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000038",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "どれが入る？",
+  "question_image": "assets/question_images/ENG-000038-question.png",
+  "answer_text": "💡 book を後ろから説明する語は？\n\n✅ 正解は A. that\n\n物を説明する関係代名詞に that を使えます。\n\nThis is the bag that I bought.\n＝これは私が買ったバッグです。",
+  "publish_at": "2026-08-25T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

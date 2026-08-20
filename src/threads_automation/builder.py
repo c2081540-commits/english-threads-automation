@@ -12,11 +12,14 @@ def build_quiz_queue(content_id: str) -> dict:
     waiting = content["visual_required"] is True and image_path is None
     return {
         "content_id": content_id,
+        "platform": "threads",
         "content_type": "quiz",
         "parent_text": select_hook(content["category"], content_id),
         "question_image": image_path,
         "answer_text": build_answer_text(content),
         "publish_at": content["publish_at"],
+        "status": "pending",
+        "execution_eligibility": "scheduled",
         "parent_status": "WAITING_FOR_VISUAL" if waiting else "pending",
         "answer_status": "WAITING_FOR_PARENT" if waiting else "pending",
         "parent_post_id": None,
@@ -27,10 +30,12 @@ def build_normal_queue(content_id: str) -> dict:
     content = load_normal_master(content_id)
     return {
         "content_id": content_id,
+        "platform": "threads",
         "content_type": "normal",
         "text": content["threads_text"],
         "publish_at": content["publish_at"],
         "status": "pending",
+        "execution_eligibility": "scheduled",
     }
 
 

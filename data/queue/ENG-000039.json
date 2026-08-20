@@ -1,0 +1,14 @@
+{
+  "content_id": "ENG-000039",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "この状態、英語なら？",
+  "question_image": "assets/question_images/ENG-000039-question.png",
+  "answer_text": "💡 ボトルから何が起きている？\n\n✅ 正解は A. leaking\n\nleak は「漏れる」です。\n\nThe bottle is leaking.\n＝ボトルから漏れています。",
+  "publish_at": "2026-08-25T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null
+}

@@ -24,14 +24,17 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         self.assertEqual(load_schedule_config(), json.loads(
             (IG_ROOT / "config" / "schedule.json").read_text(encoding="utf-8")))
 
-    def test_all_49_queues_are_pending_and_unique(self):
+    def test_all_49_queues_are_unique_and_known_post_is_reconciled(self):
         self.assertEqual(len(self.queues), 49)
         self.assertEqual(len({queue["content_id"] for queue in self.queues}), 49)
-        self.assertTrue(all(queue["platform"] == "threads" and queue["status"] == "pending"
-                            for queue in self.queues))
+        self.assertTrue(all(queue["platform"] == "threads" for queue in self.queues))
+        posted = [queue for queue in self.queues if queue["status"] == "posted"]
+        self.assertEqual([queue["content_id"] for queue in posted], ["ENG-000009"])
+        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 48)
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
         self.assertTrue(all(queue["parent_status"] == queue["answer_status"] == "pending"
-                            for queue in quizzes))
+                            for queue in quizzes if queue["content_id"] != "ENG-000009"))
+        self.assertEqual((posted[0]["parent_status"], posted[0]["answer_status"]), ("posted", "posted"))
 
     def test_all_shared_master_fields_and_slots_match(self):
         quiz_fields = ("content_id", "question", "choices", "best_answer", "publish_at")
@@ -63,14 +66,12 @@ class FinalThreadsScheduleTests(unittest.TestCase):
             self.assertEqual(threads_image.read_bytes(), instagram_image.read_bytes())
             self.assertNotIn("placeholder", queue["question_image"])
 
-    def test_all_42_answer_images_are_identical_to_instagram(self):
+    def test_all_42_questions_match_instagram_and_replies_are_text_only(self):
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
         self.assertEqual(len(quizzes), 42)
         for queue in quizzes:
             content_id = queue["content_id"]
-            threads_image = REPO_ROOT / queue["answer_image"]
-            instagram_image = IG_ROOT / "artifacts" / "images" / f"{content_id}-answer.png"
-            self.assertEqual(threads_image.read_bytes(), instagram_image.read_bytes())
+            self.assertNotIn("answer_image", queue)
             threads_question = REPO_ROOT / queue["question_image"]
             instagram_question = IG_ROOT / "artifacts" / "images" / f"{content_id}-question.png"
             self.assertEqual(threads_question.read_bytes(), instagram_question.read_bytes())
@@ -80,10 +81,13 @@ class FinalThreadsScheduleTests(unittest.TestCase):
                                     f"{content_id}.json").read_text())
             self.assertEqual(local["content_id"], instagram["content_id"])
             self.assertEqual(local["best_answer"], instagram["best_answer"])
+            self.assertEqual(local.get("question_guide_ja"), instagram.get("question_guide_ja"))
 
     def test_past_slots_are_held_and_posted_is_not_reposted(self):
         held = [queue for queue in self.queues if queue["execution_eligibility"] == "past_due_hold"]
-        self.assertEqual([queue["content_id"] for queue in held], ["ENG-000006", "ENG-000007", "ENG-000008"])
+        self.assertEqual([queue["content_id"] for queue in held],
+                         ["ENG-000006", "ENG-000007", "ENG-000008", "ENG-000010", "ENG-000011",
+                          "ENG-100002"])
         queue = dict(self.queues[3], status="posted", execution_eligibility="scheduled")
         self.assertFalse(should_execute(queue, datetime.fromisoformat("2026-08-21T00:00:00+09:00")))
 

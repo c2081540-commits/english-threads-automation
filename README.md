@@ -57,7 +57,7 @@ Pythonで必須項目、文字数、content ID、正答一致、問題画像存�
 
 ## 将来実装
 
-Meta / Threads API投稿、GitHub Actions、Codex Automation、AI生成、分析、自動最適化、Instagram Storiesテンプレートは今回の対象外です。
+Codex Automation、AI生成、分析、自動最適化は今回の対象外です。
 
 ## Phase 3 日次試作
 
@@ -96,9 +96,9 @@ python3 scripts/run_due_post.py --now 2026-08-20T16:00:00+09:00
 Threads APIは公式の `https://graph.threads.net` をversion pathなしで使用します。Instagram用の
 `META_GRAPH_API_VERSION` はThreads URLへ適用しません。
 
-Quizは問題画像付き親container作成・親publish・回答画像と短い回答文を持つIMAGE container作成・
-`reply_to_id`付き回答publishの順です。問題・回答画像はInstagramと同一バイトの既存画像を使用し、
-Threads専用画像は生成しません。親成功後に回答が失敗した場合は、`parent_status: posted`と
+Quizは問題画像付き親container作成・親publish・短い回答文を持つTEXT container作成・
+`reply_to_id`付き回答publishの順です。回答返信ではInstagram回答画像を参照・送信・公開URL検査せず、
+正解1行＋必要な補足0〜2行だけで完結させます。親成功後に回答が失敗した場合は、`parent_status: posted`と
 `parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。
 成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
 
@@ -117,3 +117,23 @@ python3 scripts/run_meta_connection_test.py --live-test
 preflightではUser IDとtokenをprofile GETで検証し、`threads_publishing_limit` の非破壊GETが成功することで
 `threads_basic / threads_content_publish` を検証します。成功時の親・返信container IDとpost IDは
 gitignoreされた`data/test_receipts/`へ保存し、access tokenは保存しません。
+
+## 本番自動実行の接続
+
+`.github/workflows/post-due.yml` は `repository_dispatch` の `due-post-check` と手動の
+`workflow_dispatch` だけを入口にし、`scripts/run_due_post.py --live` を1回呼びます。投稿時刻・本文・画像は
+workflowへ持たせず、queueを唯一の正とします。同一workflowの並列実行はconcurrencyで直列化し、queueまたは
+receiptに実変更がある場合だけ対象パスをcommitして`main`へ通常pushします。空commit、force push、全ファイルの
+一括stageは行いません。
+
+GitHub Actions Secretsには `THREADS_ACCESS_TOKEN` と `THREADS_USER_ID` を登録します。値はコード・workflow・
+READMEへ保存しません。公開問題画像は現在のpublic GitHub Raw方式を使うため、repoをprivate化した場合は投稿を
+`BLOCKED_MEDIA_URL`で停止します。
+
+`examples/gas/dispatch_due_posts.gs` はInstagram repoと同一の5分間隔dispatcherです。Apps ScriptのScript
+Propertiesへ `GITHUB_DISPATCH_TOKEN`、`GITHUB_OWNER`、`INSTAGRAM_REPOSITORY`、
+`THREADS_REPOSITORY` を設定し、`installFiveMinuteTrigger()`を一度だけ実行します。GASはdispatchだけを行い、
+queue・投稿内容・Threads tokenを持ちません。
+
+将来systemdへ移行する場合も、repoを同期した上で同じ `python3 scripts/run_due_post.py --live` を排他実行し、
+変更されたqueue/receiptだけを通常commit/pushする構造を維持します。

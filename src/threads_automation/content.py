@@ -18,7 +18,8 @@ FORBIDDEN_HOOKS = (
     re.compile(r"ほとんどの人.*間違"),
     re.compile(r"ネイティブしか分からない"),
 )
-COMMON_FIELDS = ("content_id", "question", "choices", "best_answer", "answer_type")
+COMMON_FIELDS = ("content_id", "question", "choices", "best_answer", "answer_type",
+                 "question_guide_ja", "question_role")
 NORMAL_FIELDS = {"content_id", "content_type", "theme", "threads_text",
                  "story_headline", "story_body", "publish_at"}
 
@@ -56,15 +57,32 @@ def validate_hook(hook: str) -> None:
         raise ValueError("quiz hook contains prohibited unsupported social proof")
 
 
-def select_hook(category: str, content_id: str) -> str:
+def select_hook(category: str, content_id: str, visual_required: bool = True) -> str:
     config = _read_json(HOOK_CONFIG_PATH, HOOK_CONFIG_PATH.parent, "hook config")
-    candidates = config.get(category)
+    candidates = config.get(category if visual_required else "text")
     if not isinstance(candidates, list) or not candidates:
         raise ValueError(f"No hook candidates configured for category: {category}")
     for candidate in candidates:
         validate_hook(candidate)
     number = int(content_id.split("-")[1])
     return candidates[number % len(candidates)]
+
+
+def validate_hook_guide(hook: str, guide: str | None, visual_required: bool) -> None:
+    validate_hook(hook)
+    if visual_required:
+        return
+    if not isinstance(guide, str) or not guide.strip():
+        raise ValueError("question_guide_ja is required for a text quiz")
+    forbidden = ("自然なのはどっち？", "一番自然なのはどれ？", "どれが入る？",
+                 "こう聞かれたら、どう返す？", "こう頼まれたら、どう返す？",
+                 "短く返すなら？")
+    if hook == guide or hook in forbidden:
+        raise ValueError("Threads hook must not duplicate the image question guide")
+    hook_core = re.sub(r"[、。！？?\s]", "", hook)
+    guide_core = re.sub(r"[、。！？?\s]", "", guide)
+    if hook_core and guide_core and (hook_core in guide_core or guide_core in hook_core):
+        raise ValueError("Threads hook and question guide are substantially duplicated")
 
 
 def question_image_path(content_id: str, allow_waiting: bool = False) -> tuple[Path | None, str | None]:
@@ -92,30 +110,17 @@ def choice_answer(content: dict) -> str:
 
 
 def build_answer_text(content: dict) -> str:
-    parts = [f"💡 {content['answer_hint']}", f"✅ 正解は {choice_answer(content)}"]
     category = content["category"]
-    if category == "grammar":
-        parts.append(content["explanation"])
-        if content.get("examples") and content.get("example_translations"):
-            parts.append(f"{content['examples'][0]}\n＝{content['example_translations'][0]}")
-        if content.get("key_difference"):
-            parts.append(content["key_difference"])
-    elif category == "vocabulary":
-        parts.append(content["explanation"])
-        if content.get("examples") and content.get("example_translations"):
-            parts.append(f"{content['examples'][0]}\n＝{content['example_translations'][0]}")
-        if content.get("key_difference"):
-            parts.append(content["key_difference"])
-    elif category == "situation":
-        if content.get("also_natural"):
-            parts.append(f"{content['also_natural']}\nでも自然です。")
-        if content.get("explanation"):
-            parts.append(content["explanation"])
-    else:
+    if category not in {"grammar", "vocabulary", "situation"}:
         raise ValueError(f"Unsupported quiz category: {category}")
+    parts = [f"💡 正解は {choice_answer(content)}"]
+    supplement = content.get("key_difference") or content.get("explanation")
+    if isinstance(supplement, str) and supplement.strip():
+        parts.append(supplement.strip())
     text = "\n\n".join(parts)
-    if len(text) > 500:
-        raise ValueError("Threads answer text exceeds 500 characters")
+    nonblank = [line for line in text.splitlines() if line.strip()]
+    if len(text) > 180 or len(nonblank) > 3:
+        raise ValueError("Threads answer text must be one answer line plus at most two short lines")
     return text
 
 

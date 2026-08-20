@@ -16,6 +16,33 @@ MEDIA_CONFIG = REPO_ROOT / "config" / "media_public.json"
 RECEIPT_DIR = REPO_ROOT / "data" / "receipts"
 
 
+def validate_queue_for_post(queue: dict) -> None:
+    if not isinstance(queue, dict):
+        raise PostingError("MALFORMED_QUEUE", "Queue root must be an object")
+    if queue.get("platform") != "threads":
+        raise PostingError("MALFORMED_QUEUE", "Queue platform must be threads")
+    if queue.get("content_type") not in {"quiz", "normal"}:
+        raise PostingError("MALFORMED_QUEUE", "Unsupported Threads content_type")
+    try:
+        publish_at = datetime.fromisoformat(queue["publish_at"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise PostingError("MALFORMED_QUEUE", "publish_at must be ISO 8601") from exc
+    if publish_at.tzinfo is None:
+        raise PostingError("MALFORMED_QUEUE", "publish_at must include timezone")
+    if queue.get("status") == "pending" and queue.get("remote_post_id"):
+        raise PostingError("DUPLICATE_PREVENTED", "Pending queue already has a remote_post_id")
+    if queue["content_type"] == "quiz":
+        if "answer_image" in queue:
+            raise PostingError("MALFORMED_QUEUE", "Threads production reply must be TEXT-only")
+        for field in ("parent_text", "question_image", "answer_text"):
+            if not isinstance(queue.get(field), str) or not queue[field].strip():
+                raise PostingError("MALFORMED_QUEUE", f"Quiz {field} is required")
+        if Path(queue["question_image"]).name != f"{queue.get('content_id')}-question.png":
+            raise PostingError("MALFORMED_QUEUE", "Question asset does not match content_id")
+    elif not isinstance(queue.get("text"), str) or not queue["text"].strip():
+        raise PostingError("MALFORMED_QUEUE", "Normal text is required")
+
+
 def _write_json_atomic(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -48,6 +75,8 @@ class PublicMediaResolver:
             raise PostingError("BLOCKED_MEDIA_URL", "Media asset must be inside the repository") from exc
         if not resolved.is_file():
             raise PostingError("BLOCKED_MEDIA_URL", f"Media asset is missing: {relative.as_posix()}")
+        if "placeholder" in relative.as_posix().casefold() or "dummy" in relative.as_posix().casefold():
+            raise PostingError("BLOCKED_MEDIA_URL", "Placeholder or dummy media is prohibited")
         url = urljoin(self.base_url, relative.as_posix())
         if self.require_https and urlparse(url).scheme != "https":
             raise PostingError("BLOCKED_MEDIA_URL", "Public media URL must use HTTPS")
@@ -60,6 +89,8 @@ def select_one_due(now: datetime, queue_dir: Path = QUEUE_DIR) -> Path | None:
     candidates = []
     for path in queue_dir.glob("ENG-*.json"):
         queue = json.loads(path.read_text(encoding="utf-8"))
+        if queue.get("platform") == "threads":
+            validate_queue_for_post(queue)
         if (queue.get("platform") == "threads" and queue.get("status") == "pending" and
                 queue.get("execution_eligibility") == "scheduled"):
             publish_at = datetime.fromisoformat(queue["publish_at"])
@@ -73,17 +104,16 @@ def dry_run(queue: dict, resolver: PublicMediaResolver) -> str:
         return (f"{queue['content_id']} | threads | {queue['publish_at']} | Normal | asset=none | "
                 "text=yes | text container -> publish")
     asset = resolver.resolve(queue["question_image"])
-    answer_asset = resolver.resolve(queue["answer_image"])
     return (f"{queue['content_id']} | threads | {queue['publish_at']} | image Quiz | asset={asset} | "
-            f"answer_asset={answer_asset} | "
             "parent_text=yes | reply=yes | image parent container -> publish parent -> "
-            "reply image container(reply_to_id) -> publish reply")
+            "TEXT reply container(reply_to_id) -> publish reply")
 
 
 def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
              now: datetime | None = None) -> dict:
     now = now or datetime.now(ZoneInfo("Asia/Tokyo"))
     queue = json.loads(queue_path.read_text(encoding="utf-8"))
+    validate_queue_for_post(queue)
     if queue.get("status") != "pending":
         raise PostingError("DUPLICATE_PREVENTED", "Only pending content may be posted")
     if queue.get("execution_eligibility") != "scheduled" or datetime.fromisoformat(queue["publish_at"]) > now:
@@ -93,6 +123,10 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
     if receipt_path.is_file():
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         queue.update(status="posted", remote_post_id=receipt["remote_post_id"], posted_at=receipt["posted_at"])
+        if queue["content_type"] == "quiz":
+            queue.update(parent_status="posted", answer_status="posted",
+                         parent_post_id=receipt["remote_post_id"],
+                         remote_reply_id=receipt.get("remote_reply_id"))
         _write_json_atomic(queue_path, queue)
         return queue
     try:
@@ -101,7 +135,6 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             remote_id = client.publish(container)
         else:
             image_url = resolver.resolve(queue["question_image"])
-            answer_image_url = resolver.resolve(queue["answer_image"])
             if parent_receipt_path.is_file():
                 parent_id = json.loads(parent_receipt_path.read_text(encoding="utf-8"))["remote_post_id"]
             else:
@@ -119,8 +152,7 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             queue.update(parent_status="posted", parent_post_id=parent_id)
             _write_json_atomic(queue_path, queue)
             try:
-                reply_container = client.create_image_container(
-                    queue["answer_text"], answer_image_url, reply_to_id=parent_id)
+                reply_container = client.create_text_container(queue["answer_text"], reply_to_id=parent_id)
                 reply_id = client.publish(reply_container)
             except PostingError as exc:
                 queue.update(status="failed", answer_status="failed",
@@ -130,8 +162,11 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             queue.update(answer_status="posted", remote_reply_id=reply_id)
             remote_id = parent_id
         posted_at = now.isoformat()
-        _write_json_atomic(receipt_path, {"content_id": queue["content_id"], "platform": "threads",
-                                         "remote_post_id": remote_id, "posted_at": posted_at})
+        receipt = {"content_id": queue["content_id"], "platform": "threads",
+                   "remote_post_id": remote_id, "posted_at": posted_at}
+        if queue["content_type"] == "quiz":
+            receipt["remote_reply_id"] = queue["remote_reply_id"]
+        _write_json_atomic(receipt_path, receipt)
         queue.update(status="posted", remote_post_id=remote_id, posted_at=posted_at, error=None)
         _write_json_atomic(queue_path, queue)
         return queue

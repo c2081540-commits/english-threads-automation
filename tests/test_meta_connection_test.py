@@ -22,7 +22,8 @@ class FixtureClient:
         self.calls.append(("image", text, url, reply_to_id))
         return "reply-container-id" if reply_to_id else "parent-container-id"
     def create_text_container(self, text, reply_to_id=None):
-        raise AssertionError("Quiz reply must not regress to TEXT-only")
+        self.calls.append(("text", text, reply_to_id))
+        return "reply-container-id"
     def publish(self, creation_id):
         self.calls.append(("publish", creation_id))
         return "parent-post-id" if creation_id == "parent-container-id" else "reply-post-id"
@@ -84,7 +85,7 @@ class ThreadsConnectionTestTests(unittest.TestCase):
         self.assertEqual(urls, ["https://graph.threads.net/me",
                                 "https://graph.threads.net/me/threads_publishing_limit"])
 
-    def test_flag_is_required_and_production_queue_stays_pending(self):
+    def test_flag_is_required_and_production_queue_stays_unchanged(self):
         result = subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "run_meta_connection_test.py")],
                                 check=True, capture_output=True, text=True)
         self.assertIn("DRY RUN ONLY", result.stdout)
@@ -93,7 +94,10 @@ class ThreadsConnectionTestTests(unittest.TestCase):
                       item["content_id"] in {entry["content_id"] for entry in
                       json.loads((REPO_ROOT / "data" / "queue" / "final-schedule-2026-08-20.json").read_text())["items"]}]
         self.assertEqual(len(production), 49)
-        self.assertTrue(all(item["status"] == "pending" and "remote_post_id" not in item for item in production))
+        posted = [item for item in production if item["status"] == "posted"]
+        self.assertEqual([item["content_id"] for item in posted], ["ENG-000009"])
+        self.assertTrue(all(item["status"] == "pending" and "remote_post_id" not in item
+                            for item in production if item["content_id"] != "ENG-000009"))
 
 
 if __name__ == "__main__":

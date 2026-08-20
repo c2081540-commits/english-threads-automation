@@ -5,5 +5,5 @@
   "text": "仕事が忙しい日に、英語のための30分を探すと始めにくくなります。\n\n通勤中に単語を5個見る。昼休みに1問解く。帰宅後に英文を1回だけ音読する。\n\nまとまった時間を待たず、すでにある行動の前後に小さな学習を置くと、今日から始めやすくなります。",
   "publish_at": "2026-08-20T22:30:00+09:00",
   "status": "pending",
-  "execution_eligibility": "scheduled"
+  "execution_eligibility": "past_due_hold"
 }

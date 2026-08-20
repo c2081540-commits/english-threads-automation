@@ -52,6 +52,12 @@ class ThreadsMetaPostingTests(unittest.TestCase):
     def queue_copy(self, content_id):
         queue = json.loads((REPO_ROOT / "data" / "queue" / f"{content_id}.json").read_text(encoding="utf-8"))
         queue["execution_eligibility"] = "scheduled"
+        queue["status"] = "pending"
+        queue["parent_status"] = "pending"
+        queue["answer_status"] = "pending"
+        queue["parent_post_id"] = None
+        for field in ("remote_post_id", "remote_reply_id", "posted_at", "error"):
+            queue.pop(field, None)
         target = self.root / f"{content_id}.json"
         target.write_text(json.dumps(queue, ensure_ascii=False), encoding="utf-8")
         return target
@@ -60,11 +66,10 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         target = self.queue_copy("ENG-000009")
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver, datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "image_reply", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "text", "publish"])
         reply_call = client.calls[2]
-        self.assertTrue(reply_call[2].endswith("ENG-000009-answer.png"))
-        self.assertIn("✅ 正解は A. by Friday", reply_call[1])
-        self.assertEqual(reply_call[3], "parent-id")
+        self.assertIn("💡 正解は A. by Friday", reply_call[1])
+        self.assertEqual(reply_call[2], "parent-id")
         self.assertEqual(result["status"], "posted")
         self.assertEqual(result["parent_post_id"], "parent-id")
         self.assertEqual(result["remote_reply_id"], "reply-id")
@@ -100,7 +105,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver,
                                   datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["image_reply", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
         self.assertEqual(result["parent_post_id"], "existing-parent-id")
 
     def test_normal_success(self):
@@ -114,7 +119,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         normal = json.loads(self.queue_copy("ENG-100002").read_text())
         text = posting.dry_run(quiz, self.resolver)
         self.assertIn("publish parent", text)
-        self.assertIn("reply image container(reply_to_id)", text)
+        self.assertIn("TEXT reply container(reply_to_id)", text)
         self.assertIn("text container -> publish", posting.dry_run(normal, self.resolver))
 
     def test_missing_secret_media_and_due_exclusions(self):
@@ -128,10 +133,26 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         queue_dir.mkdir()
         for content_id in ("ENG-000006", "ENG-000009"):
             queue = json.loads((REPO_ROOT / "data" / "queue" / f"{content_id}.json").read_text())
+            if content_id == "ENG-000009":
+                queue["status"] = "pending"
+                queue["parent_status"] = "pending"
+                queue["answer_status"] = "pending"
+                queue["parent_post_id"] = None
+                for field in ("remote_post_id", "remote_reply_id", "posted_at"):
+                    queue.pop(field, None)
             (queue_dir / f"{content_id}.json").write_text(json.dumps(queue), encoding="utf-8")
         self.assertIsNone(posting.select_one_due(datetime.fromisoformat("2026-08-20T14:00:00+09:00"), queue_dir))
         self.assertEqual(posting.select_one_due(datetime.fromisoformat("2026-08-20T16:00:00+09:00"), queue_dir).stem,
                          "ENG-000009")
+
+    def test_malformed_queue_placeholder_and_answer_image_fail_closed(self):
+        queue = json.loads(self.queue_copy("ENG-000009").read_text())
+        queue["answer_image"] = "assets/answer.png"
+        with self.assertRaises(PostingError):
+            posting.validate_queue_for_post(queue)
+        with self.assertRaises(PostingError) as caught:
+            self.resolver.resolve("assets/question_images/ice-cream-placeholder.png")
+        self.assertEqual(caught.exception.code, "BLOCKED_MEDIA_URL")
 
     def test_token_not_logged(self):
         token = "super-secret-token"

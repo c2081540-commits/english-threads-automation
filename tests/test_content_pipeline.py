@@ -26,9 +26,8 @@ class ContentPipelineTests(unittest.TestCase):
             self.assertEqual(queue["answer_status"], "pending")
             self.assertIsNone(queue["parent_post_id"])
             self.assertTrue((REPO_ROOT / queue["question_image"]).is_file())
-            self.assertTrue((REPO_ROOT / queue["answer_image"]).is_file())
-            self.assertIn("💡 ", queue["answer_text"])
-            self.assertIn("✅ 正解は ", queue["answer_text"])
+            self.assertNotIn("answer_image", queue)
+            self.assertIn("💡 正解は ", queue["answer_text"])
 
     def test_parent_hook_does_not_repeat_question(self):
         for content_id in self.quiz_ids:
@@ -49,8 +48,8 @@ class ContentPipelineTests(unittest.TestCase):
         quiz = format_dry_run(build_quiz_queue("ENG-000003"))
         self.assertIn("parent:", quiz)
         self.assertIn("image:", quiz)
-        self.assertIn("answer image:", quiz)
-        self.assertIn("✅ 正解は B. for", quiz)
+        self.assertIn("reply media: none (TEXT-only)", quiz)
+        self.assertIn("💡 正解は B. for", quiz)
         normal = format_dry_run(build_normal_queue("ENG-100001"))
         self.assertIn("DRY RUN Threads normal", normal)
         self.assertIn("単語を5個見る", normal)
@@ -95,7 +94,7 @@ class ContentPipelineTests(unittest.TestCase):
         self.assertIn("ENG-000003.json", built.stdout)
         dry_run = subprocess.run([sys.executable, str(dry_run_script), "ENG-000003"],
                                  cwd="/private/tmp", check=True, capture_output=True, text=True)
-        self.assertIn("✅ 正解は B. for", dry_run.stdout)
+        self.assertIn("💡 正解は B. for", dry_run.stdout)
 
 
 if __name__ == "__main__":

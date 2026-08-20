@@ -92,7 +92,9 @@ python3 scripts/run_due_post.py --now 2026-08-20T16:00:00+09:00
 
 - `THREADS_ACCESS_TOKEN`
 - `THREADS_USER_ID`
-- `META_GRAPH_API_VERSION`
+
+Threads APIは公式の `https://graph.threads.net` をversion pathなしで使用します。Instagram用の
+`META_GRAPH_API_VERSION` はThreads URLへ適用しません。
 
 Quizは画像付き親container作成・親publish・`reply_to_id`付き回答container作成・回答publishの順です。親成功後に回答が失敗した場合は、`parent_status: posted`と`parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
 
@@ -101,10 +103,13 @@ Quizは画像付き親container作成・親publish・`reply_to_id`付き回答co
 ### 分離された実接続テスト
 
 `scripts/run_meta_connection_test.py` はproduction queueを読まず、`data/test_payloads/threads-quiz.json`だけを使用します。フラグなしは説明表示のみで、`--live-test`がある場合だけpreflight後にテスト親投稿と返信を投稿します。
+実接続時はrepo rootの親にあるワークスペース共通 `.env` を読み込みます。シェルに既に設定された環境変数は `.env` で上書きしません。`.env` はGit管理対象外です。
 
 ```bash
 python3 scripts/run_meta_connection_test.py
 python3 scripts/run_meta_connection_test.py --live-test
 ```
 
-preflightではUser ID、token、`threads_basic / threads_content_publish`、テスト画像の匿名HTTPS取得を検証します。成功時の親・返信container IDとpost IDはgitignoreされた`data/test_receipts/`へ保存し、access tokenは保存しません。
+preflightではUser IDとtokenをprofile GETで検証し、`threads_publishing_limit` の非破壊GETが成功することで
+`threads_basic / threads_content_publish` を検証します。成功時の親・返信container IDとpost IDは
+gitignoreされた`data/test_receipts/`へ保存し、access tokenは保存しません。

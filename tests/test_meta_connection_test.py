@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -9,6 +10,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from threads_automation.connection_test import execute_live_test
+from threads_automation.local_env import load_workspace_env
 from threads_automation.meta_client import PostingError, ThreadsSecrets
 from threads_automation.posting import PublicMediaResolver
 from threads_automation.preflight import run_preflight
@@ -26,17 +28,32 @@ class FixtureClient:
 def preflight_transport(url, fields):
     if url.endswith("/me"):
         return {"id": "threads-user-id", "username": "test"}
-    return {"data": [
-        {"permission": "threads_basic", "status": "granted"},
-        {"permission": "threads_content_publish", "status": "granted"},
-    ]}
+    return {"data": [{"quota_usage": 0, "config": {"quota_total": 250}}]}
 
 
 class ThreadsConnectionTestTests(unittest.TestCase):
+    def test_workspace_env_loader_does_not_override_process_environment(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / ".env"
+            path.write_text("THREADS_ACCESS_TOKEN=file-token\nTHREADS_USER_ID=file-user\n")
+            previous = os.environ.get("THREADS_ACCESS_TOKEN")
+            os.environ["THREADS_ACCESS_TOKEN"] = "process-token"
+            os.environ.pop("THREADS_USER_ID", None)
+            try:
+                load_workspace_env(path)
+                self.assertEqual(os.environ["THREADS_ACCESS_TOKEN"], "process-token")
+                self.assertEqual(os.environ["THREADS_USER_ID"], "file-user")
+            finally:
+                if previous is None:
+                    os.environ.pop("THREADS_ACCESS_TOKEN", None)
+                else:
+                    os.environ["THREADS_ACCESS_TOKEN"] = previous
+                os.environ.pop("THREADS_USER_ID", None)
+
     def test_mock_live_test_saves_parent_and_reply_ids(self):
         with tempfile.TemporaryDirectory() as directory:
             result = execute_live_test(
-                ThreadsSecrets("secret-not-logged", "threads-user-id", "v1"), FixtureClient(),
+                ThreadsSecrets("secret-not-logged", "threads-user-id"), FixtureClient(),
                 PublicMediaResolver(checker=lambda _: True), preflight_transport,
                 Path(directory) / "result.json")
             self.assertEqual(result["parent_container_id"], "parent-container-id")
@@ -48,11 +65,21 @@ class ThreadsConnectionTestTests(unittest.TestCase):
     def test_missing_permission_fails_closed(self):
         def missing_permissions(url, fields):
             return ({"id": "threads-user-id"} if url.endswith("/me")
-                    else {"data": [{"permission": "threads_basic", "status": "granted"}]})
+                    else {"error": "permission denied"})
         with self.assertRaises(PostingError) as caught:
-            run_preflight(ThreadsSecrets("token", "threads-user-id", "v1"),
+            run_preflight(ThreadsSecrets("token", "threads-user-id"),
                           ["threads_basic", "threads_content_publish"], [], missing_permissions)
         self.assertEqual(caught.exception.code, "MISSING_PERMISSION")
+
+    def test_preflight_uses_unversioned_threads_host(self):
+        urls = []
+        def transport(url, fields):
+            urls.append(url)
+            return ({"id": "threads-user-id"} if url.endswith("/me") else
+                    {"data": [{"quota_usage": 0}]})
+        run_preflight(ThreadsSecrets("token", "threads-user-id"), ["threads_basic"], [], transport)
+        self.assertEqual(urls, ["https://graph.threads.net/me",
+                                "https://graph.threads.net/me/threads_publishing_limit"])
 
     def test_flag_is_required_and_production_queue_stays_pending(self):
         result = subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "run_meta_connection_test.py")],

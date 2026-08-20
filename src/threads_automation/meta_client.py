@@ -20,16 +20,15 @@ class PostingError(RuntimeError):
 class ThreadsSecrets:
     access_token: str
     user_id: str
-    api_version: str
 
     @classmethod
     def from_env(cls) -> "ThreadsSecrets":
-        names = ("THREADS_ACCESS_TOKEN", "THREADS_USER_ID", "META_GRAPH_API_VERSION")
+        names = ("THREADS_ACCESS_TOKEN", "THREADS_USER_ID")
         values = {name: os.environ.get(name, "").strip() for name in names}
         missing = [name for name, value in values.items() if not value]
         if missing:
             raise PostingError("MISSING_SECRET", f"Missing environment variables: {', '.join(missing)}")
-        return cls(values[names[0]], values[names[1]], values[names[2]])
+        return cls(values[names[0]], values[names[1]])
 
 
 class HttpTransport:
@@ -70,7 +69,7 @@ class ThreadsMetaClient:
     def __init__(self, secrets: ThreadsSecrets, transport=None):
         self.secrets = secrets
         self.transport = transport or HttpTransport()
-        self.base_url = f"https://graph.threads.net/{secrets.api_version}"
+        self.base_url = "https://graph.threads.net"
 
     def _post(self, path: str, fields: dict, failure_code: str) -> str:
         try:

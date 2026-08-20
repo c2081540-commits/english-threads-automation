@@ -131,11 +131,18 @@ class ThreadsMetaPostingTests(unittest.TestCase):
 
     def test_token_not_logged(self):
         token = "super-secret-token"
-        client = ThreadsMetaClient(ThreadsSecrets(token, "user", "v1"),
+        client = ThreadsMetaClient(ThreadsSecrets(token, "user"),
                                    transport=lambda *_: (_ for _ in ()).throw(PostingError("INVALID_TOKEN", "invalid token")))
         with self.assertRaises(PostingError) as caught:
             client.publish("container")
         self.assertNotIn(token, str(caught.exception))
+
+    def test_threads_client_uses_unversioned_threads_host(self):
+        calls = []
+        client = ThreadsMetaClient(ThreadsSecrets("token", "user"),
+                                   transport=lambda url, fields: calls.append(url) or {"id": "container"})
+        client.create_text_container("test")
+        self.assertEqual(calls, ["https://graph.threads.net/user/threads"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,7 @@
+{
+  "content_id": "META-TEST-THREADS-QUIZ",
+  "content_type": "test_quiz",
+  "parent_text": "API接続テスト",
+  "question_image": "assets/question_images/ENG-000009-question.png",
+  "reply_text": "API接続テスト：返信確認"
+}

@@ -1,0 +1,4 @@
+{
+  "required_permissions": ["threads_basic", "threads_content_publish"],
+  "result_path": "data/test_receipts/threads-live-test-result.json"
+}

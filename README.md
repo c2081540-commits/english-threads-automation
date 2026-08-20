@@ -97,3 +97,14 @@ python3 scripts/run_due_post.py --now 2026-08-20T16:00:00+09:00
 Quizは画像付き親container作成・親publish・`reply_to_id`付き回答container作成・回答publishの順です。親成功後に回答が失敗した場合は、`parent_status: posted`と`parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
 
 問題画像URLは公開repoのGitHub Raw HTTPSを `config/media_public.json` から生成します。live時は匿名HEAD取得を検査し、repoのprivate化、404、非HTTPSでは`BLOCKED_MEDIA_URL`で停止します。安全な一時的通信エラーだけ最大2回retryし、認証・データ・media URLエラーはretryしません。
+
+### 分離された実接続テスト
+
+`scripts/run_meta_connection_test.py` はproduction queueを読まず、`data/test_payloads/threads-quiz.json`だけを使用します。フラグなしは説明表示のみで、`--live-test`がある場合だけpreflight後にテスト親投稿と返信を投稿します。
+
+```bash
+python3 scripts/run_meta_connection_test.py
+python3 scripts/run_meta_connection_test.py --live-test
+```
+
+preflightではUser ID、token、`threads_basic / threads_content_publish`、テスト画像の匿名HTTPS取得を検証します。成功時の親・返信container IDとpost IDはgitignoreされた`data/test_receipts/`へ保存し、access tokenは保存しません。

@@ -10,7 +10,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from threads_automation.meta_client import ThreadsMetaClient, ThreadsSecrets  # noqa: E402
-from threads_automation.posting import PublicMediaResolver, dry_run, post_one, select_one_due  # noqa: E402
+from threads_automation.posting import (PublicMediaResolver, dry_run, post_one, recover_reply,
+                                        select_one_due)  # noqa: E402
 
 
 def main() -> None:
@@ -25,10 +26,17 @@ def main() -> None:
         return
     queue = json.loads(path.read_text(encoding="utf-8"))
     resolver = PublicMediaResolver() if args.live else PublicMediaResolver(checker=lambda _: True)
+    is_reply_recovery = ((queue.get("status"), queue.get("parent_status"),
+                          queue.get("answer_status")) == ("failed", "posted", "failed"))
     if not args.live:
-        print(dry_run(queue, resolver))
+        if is_reply_recovery:
+            print(json.dumps(recover_reply(path, dry_run_only=True), ensure_ascii=False, indent=2))
+        else:
+            print(dry_run(queue, resolver))
         return
-    result = post_one(path, ThreadsMetaClient(ThreadsSecrets.from_env()), resolver, now)
+    client = ThreadsMetaClient(ThreadsSecrets.from_env())
+    result = (recover_reply(path, client, dry_run_only=False, now=now)
+              if is_reply_recovery else post_one(path, client, resolver, now))
     print(json.dumps({"content_id": result["content_id"], "status": result["status"],
                       "remote_post_id": result["remote_post_id"]}, ensure_ascii=False))
 

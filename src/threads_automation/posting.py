@@ -103,6 +103,12 @@ def select_one_due(now: datetime, queue_dir: Path = QUEUE_DIR) -> Path | None:
             publish_at = datetime.fromisoformat(queue["publish_at"])
             if publish_at <= now:
                 candidates.append((publish_at, queue["content_id"], path))
+        elif (queue.get("platform") == "threads" and queue.get("content_type") == "quiz" and
+              (queue.get("status"), queue.get("parent_status"), queue.get("answer_status")) ==
+              ("failed", "posted", "failed") and
+              queue.get("reply_recovery_attempts", 0) < 1 and
+              (RECEIPT_DIR / f"threads-{queue.get('content_id')}-reply-container.json").is_file()):
+            candidates.append((datetime.fromisoformat(queue["publish_at"]), queue["content_id"], path))
     return min(candidates)[2] if candidates else None
 
 
@@ -113,7 +119,7 @@ def dry_run(queue: dict, resolver: PublicMediaResolver) -> str:
     asset = resolver.resolve(queue["question_image"])
     return (f"{queue['content_id']} | threads | {queue['publish_at']} | image Quiz | asset={asset} | "
             "parent_text=yes | reply=yes | image parent container -> publish parent -> "
-            "TEXT reply container(reply_to_id) -> publish reply")
+            "TEXT reply container(reply_to_id) -> wait FINISHED -> publish reply")
 
 
 def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
@@ -127,6 +133,7 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
         raise PostingError("NOT_DUE", "Queue item is not eligible and due")
     receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}.json"
     parent_receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}-parent.json"
+    reply_container_receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}-reply-container.json"
     if receipt_path.is_file():
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         queue.update(status="posted", remote_post_id=receipt["remote_post_id"], posted_at=receipt["posted_at"])
@@ -159,7 +166,22 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
             queue.update(parent_status="posted", parent_post_id=parent_id)
             _write_json_atomic(queue_path, queue)
             try:
-                reply_container = client.create_text_container(queue["answer_text"], reply_to_id=parent_id)
+                if reply_container_receipt_path.is_file():
+                    saved_container = json.loads(reply_container_receipt_path.read_text(encoding="utf-8"))
+                    if saved_container.get("parent_post_id") != parent_id:
+                        raise PostingError("RECOVERY_NOT_ALLOWED",
+                                           "Reply container receipt parent ID mismatch")
+                    reply_container = saved_container.get("reply_container_id")
+                    if not isinstance(reply_container, str) or not reply_container:
+                        raise PostingError("MALFORMED_API_RESPONSE",
+                                           "Reply container receipt has no container ID")
+                else:
+                    reply_container = client.create_text_reply(queue["answer_text"], reply_to_id=parent_id)
+                    _write_json_atomic(reply_container_receipt_path, {
+                        "content_id": queue["content_id"], "platform": "threads",
+                        "parent_post_id": parent_id, "reply_container_id": reply_container,
+                        "stage": "reply_container_created", "created_at": now.isoformat(),
+                    })
                 reply_id = client.publish(reply_container)
             except PostingError as exc:
                 queue.update(status="failed", answer_status="failed",
@@ -203,6 +225,7 @@ def recover_reply(queue_path: Path, client=None, *, dry_run_only: bool = True,
         raise PostingError("RECOVERY_NOT_ALLOWED", "Queue is not in failed-reply recovery state")
     receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}.json"
     parent_receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}-parent.json"
+    reply_container_receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}-reply-container.json"
     if receipt_path.is_file():
         raise PostingError("DUPLICATE_PREVENTED", "Final receipt already exists")
     if not parent_receipt_path.is_file():
@@ -213,22 +236,44 @@ def recover_reply(queue_path: Path, client=None, *, dry_run_only: bool = True,
         raise PostingError("RECOVERY_NOT_ALLOWED", "Parent receipt has no remote_post_id")
     if queue.get("parent_post_id") != parent_id:
         raise PostingError("RECOVERY_NOT_ALLOWED", "Queue and parent receipt IDs do not match")
+    if reply_container_receipt_path.is_file():
+        container_receipt = json.loads(reply_container_receipt_path.read_text(encoding="utf-8"))
+        reply_container = container_receipt.get("reply_container_id")
+        if container_receipt.get("parent_post_id") != parent_id:
+            raise PostingError("RECOVERY_NOT_ALLOWED", "Reply container receipt parent ID mismatch")
+    else:
+        reply_container = (((queue.get("error") or {}).get("meta") or {}).get("payload") or {}).get(
+            "creation_id")
+        if not isinstance(reply_container, str) or not reply_container:
+            raise PostingError("RECOVERY_NOT_ALLOWED", "Existing reply container receipt is required")
     plan = {
         "content_id": queue["content_id"],
         "parent_post_id": parent_id,
         "parent_action": "reuse_only",
-        "create_endpoint": "https://graph.threads.net/me/threads",
-        "create_payload": {"media_type": "TEXT", "text": queue["answer_text"],
-                           "reply_to_id": parent_id},
+        "reply_container_id": reply_container,
+        "container_action": "reuse_only",
+        "status_endpoint": f"https://graph.threads.net/{reply_container}?fields=id,status",
+        "response_id_type": "reply_media_container_id",
         "publish_endpoint": "https://graph.threads.net/me/threads_publish",
-        "publish_payload": {"creation_id": "<reply_container_id>"},
+        "publish_payload": {"creation_id": reply_container},
     }
     if dry_run_only:
         return plan
     if client is None:
         raise PostingError("RECOVERY_NOT_ALLOWED", "Live recovery requires a Meta client")
+    queue["reply_recovery_attempts"] = queue.get("reply_recovery_attempts", 0) + 1
+    _write_json_atomic(queue_path, queue)
     try:
-        reply_container = client.create_text_container(queue["answer_text"], reply_to_id=parent_id)
+        status = client.container_status(reply_container)
+        if status != "FINISHED":
+            raise PostingError("CONTAINER_STATUS_FAILURE",
+                               f"Existing reply container is not FINISHED: {status}")
+        if not reply_container_receipt_path.is_file():
+            _write_json_atomic(reply_container_receipt_path, {
+                "content_id": queue["content_id"], "platform": "threads",
+                "parent_post_id": parent_id, "reply_container_id": reply_container,
+                "stage": "reply_container_created", "created_at": now.isoformat(),
+            })
         reply_id = client.publish(reply_container)
     except PostingError as exc:
         queue["error"] = _safe_error(exc, "THREADS_REPLY_FAILURE")

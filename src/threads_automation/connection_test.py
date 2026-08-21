@@ -39,7 +39,7 @@ def execute_live_test(secrets, client, resolver: PublicMediaResolver,
                               [media_url], preflight_transport)
     parent_container_id = client.create_image_container(payload["parent_text"], media_url)
     parent_post_id = client.publish(parent_container_id)
-    reply_container_id = client.create_text_container(payload["reply_text"], reply_to_id=parent_post_id)
+    reply_container_id = client.create_text_reply(payload["reply_text"], reply_to_id=parent_post_id)
     reply_post_id = client.publish(reply_container_id)
     result = {"content_id": payload["content_id"], "platform": "threads", "preflight": preflight,
               "parent_container_id": parent_container_id, "parent_post_id": parent_post_id,

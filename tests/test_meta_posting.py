@@ -18,10 +18,11 @@ from threads_automation.meta_client import (HttpTransport, PostingError, Threads
 
 
 class FakeThreadsClient:
-    def __init__(self, fail_publish_number=None):
+    def __init__(self, fail_publish_number=None, fail_reply=False):
         self.calls = []
         self.publish_count = 0
         self.fail_publish_number = fail_publish_number
+        self.fail_reply = fail_reply
 
     def create_image_container(self, text, url, reply_to_id=None):
         self.calls.append(("image_reply" if reply_to_id else "image_parent", text, url, reply_to_id))
@@ -30,6 +31,16 @@ class FakeThreadsClient:
     def create_text_container(self, text, reply_to_id=None):
         self.calls.append(("text", text, reply_to_id))
         return "reply-container" if reply_to_id else "normal-container"
+
+    def create_text_reply(self, text, reply_to_id):
+        self.calls.append(("text_reply", text, reply_to_id))
+        if self.fail_reply:
+            raise PostingError("THREADS_REPLY_FAILURE", "mock reply failure")
+        return "reply-container"
+
+    def container_status(self, creation_id):
+        self.calls.append(("status", creation_id))
+        return "FINISHED"
 
     def publish(self, creation_id):
         self.publish_count += 1
@@ -68,7 +79,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         target = self.queue_copy("ENG-000009")
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver, datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "text", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["image_parent", "publish", "text_reply", "publish"])
         reply_call = client.calls[2]
         self.assertIn("💡 正解は A. by Friday", reply_call[1])
         self.assertEqual(reply_call[2], "parent-id")
@@ -98,6 +109,10 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         self.assertEqual(saved["parent_status"], "posted")
         self.assertEqual(saved["answer_status"], "failed")
         self.assertEqual(saved["parent_post_id"], "parent-id")
+        container_receipt = json.loads((self.root / "receipts" /
+                                        "threads-ENG-000009-reply-container.json").read_text())
+        self.assertEqual(container_receipt["reply_container_id"], "reply-container")
+        self.assertEqual(container_receipt["parent_post_id"], "parent-id")
 
     def test_parent_receipt_resumes_at_reply_without_duplicate_parent(self):
         target = self.queue_copy("ENG-000009")
@@ -107,26 +122,26 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         client = FakeThreadsClient()
         result = posting.post_one(target, client, self.resolver,
                                   datetime.fromisoformat("2026-08-20T16:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
+        self.assertEqual([call[0] for call in client.calls], ["text_reply", "publish"])
         self.assertEqual(result["parent_post_id"], "existing-parent-id")
 
     def test_reply_only_recovery_reuses_parent_and_never_creates_parent(self):
-        source = json.loads((REPO_ROOT / "data" / "queue" / "ENG-000016.json").read_text())
-        target = self.root / "ENG-000016.json"
+        source = json.loads((REPO_ROOT / "data" / "queue" / "ENG-000017.json").read_text())
+        target = self.root / "ENG-000017.json"
         target.write_text(json.dumps(source, ensure_ascii=False), encoding="utf-8")
-        receipt = self.root / "receipts" / "threads-ENG-000016-parent.json"
+        receipt = self.root / "receipts" / "threads-ENG-000017-parent.json"
         receipt.parent.mkdir(parents=True)
         receipt.write_text(json.dumps({"remote_post_id": source["parent_post_id"]}), encoding="utf-8")
         plan = posting.recover_reply(target, dry_run_only=True)
         self.assertEqual(plan["parent_action"], "reuse_only")
-        self.assertEqual(plan["create_payload"]["reply_to_id"], source["parent_post_id"])
-        self.assertEqual(plan["create_payload"]["media_type"], "TEXT")
-        self.assertEqual(plan["create_endpoint"], "https://graph.threads.net/me/threads")
         client = FakeThreadsClient()
         result = posting.recover_reply(target, client, dry_run_only=False,
                                        now=datetime.fromisoformat("2026-08-21T19:00:00+09:00"))
-        self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
-        self.assertEqual(client.calls[0][2], source["parent_post_id"])
+        self.assertEqual([call[0] for call in client.calls], ["status", "publish"])
+        self.assertEqual(plan["reply_container_id"], "18096439436062590")
+        self.assertEqual(plan["container_action"], "reuse_only")
+        self.assertEqual(plan["publish_endpoint"], "https://graph.threads.net/me/threads_publish")
+        self.assertEqual(plan["response_id_type"], "reply_media_container_id")
         self.assertEqual(result["parent_post_id"], source["parent_post_id"])
         self.assertEqual(result["status"], "posted")
 
@@ -141,7 +156,7 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         normal = json.loads(self.queue_copy("ENG-100002").read_text())
         text = posting.dry_run(quiz, self.resolver)
         self.assertIn("publish parent", text)
-        self.assertIn("TEXT reply container(reply_to_id)", text)
+        self.assertIn("wait FINISHED -> publish reply", text)
         self.assertIn("text container -> publish", posting.dry_run(normal, self.resolver))
 
     def test_missing_secret_media_and_due_exclusions(self):
@@ -187,9 +202,31 @@ class ThreadsMetaPostingTests(unittest.TestCase):
     def test_threads_client_uses_unversioned_threads_host(self):
         calls = []
         client = ThreadsMetaClient(ThreadsSecrets("token", "user"),
-                                   transport=lambda url, fields: calls.append(url) or {"id": "container"})
+                                   transport=lambda url, fields: calls.append((url, fields)) or {"id": "container"})
         client.create_text_container("test")
-        self.assertEqual(calls, ["https://graph.threads.net/me/threads"])
+        reply_id = client.create_text_reply("reply", "parent-post-id")
+        self.assertEqual(reply_id, "container")
+        self.assertEqual([call[0] for call in calls], ["https://graph.threads.net/me/threads"] * 2)
+        self.assertEqual(calls[1][1], {"media_type": "TEXT", "text": "reply",
+                                      "reply_to_id": "parent-post-id", "access_token": "token"})
+
+    def test_publish_waits_for_finished_container(self):
+        class StatusTransport:
+            def __init__(self):
+                self.statuses = iter(("IN_PROGRESS", "FINISHED"))
+                self.calls = []
+            def get(inner_self, url, fields):
+                inner_self.calls.append(("get", url, fields))
+                return {"id": "reply-container", "status": next(inner_self.statuses)}
+            def __call__(inner_self, url, fields):
+                inner_self.calls.append(("post", url, fields))
+                return {"id": "published-reply"}
+        transport = StatusTransport()
+        client = ThreadsMetaClient(ThreadsSecrets("token", "user"), transport=transport)
+        with patch("threads_automation.meta_client.time.sleep"):
+            self.assertEqual(client.publish("reply-container"), "published-reply")
+        self.assertEqual([call[0] for call in transport.calls], ["get", "get", "post"])
+        self.assertEqual(transport.calls[-1][1], "https://graph.threads.net/me/threads_publish")
 
     def test_http_400_preserves_masked_meta_error_details(self):
         body = json.dumps({"error": {"message": "Invalid reply target", "type": "OAuthException",

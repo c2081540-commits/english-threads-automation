@@ -6,9 +6,13 @@
   "question_image": "assets/question_images/ENG-000015-question.png",
   "answer_text": "💡 正解は A. by\n\n交通手段を表すときは、乗り物の前にbyを使います。\n\n📝 I go to work by train.\n「私は電車で仕事へ行きます。」\n\n🔑 by＋乗り物＝その交通手段で",
   "publish_at": "2026-08-21T15:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18130392745647925",
+  "remote_reply_id": "18101142170524938",
+  "remote_post_id": "18130392745647925",
+  "posted_at": "2026-08-21T15:00:36.409648+09:00",
+  "error": null
 }

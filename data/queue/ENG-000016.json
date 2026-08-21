@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000016-question.png",
   "answer_text": "💡 正解は A. like\n\nI'd like ...は、欲しいものを丁寧に伝える表現です。\n\n🗣️ Yes, I'd like some, please.\n「はい、少しいただきたいです。」\n\n🔑 I'd like ...＝〜をお願いします",
   "publish_at": "2026-08-21T18:00:00+09:00",
-  "status": "pending",
+  "status": "failed",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L3"
+  "parent_status": "posted",
+  "answer_status": "failed",
+  "parent_post_id": "18106313867127771",
+  "difficulty_level": "L3",
+  "error": {
+    "code": "THREADS_REPLY_FAILURE",
+    "reason": "Meta HTTP failure: 400"
+  }
 }

@@ -33,7 +33,7 @@ class ParentHookQualityTests(unittest.TestCase):
                                 "thread-hook-audit.json").read_text())["items"]
 
     def test_all_unposted_hooks_pass_the_batch_quality_gate(self):
-        self.assertEqual(len(self.items), 37)
+        self.assertEqual(len(self.items), 36)
         validate_hook_sequence(self.items)
 
     def test_audit_counts_and_instruction_hooks_are_revised(self):

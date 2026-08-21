@@ -30,10 +30,11 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         self.assertTrue(all(queue["platform"] == "threads" for queue in self.queues))
         posted = [queue for queue in self.queues if queue["status"] == "posted"]
         self.assertEqual([queue["content_id"] for queue in posted],
-                         ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015"])
+                         ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
+                          "ENG-000017"])
         self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 42)
         failed = [queue for queue in self.queues if queue["status"] == "failed"]
-        self.assertEqual([queue["content_id"] for queue in failed], ["ENG-000016", "ENG-000017"])
+        self.assertEqual([queue["content_id"] for queue in failed], ["ENG-000016"])
         self.assertTrue(all((queue["parent_status"], queue["answer_status"]) ==
                             ("posted", "failed") for queue in failed))
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]

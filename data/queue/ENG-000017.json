@@ -6,27 +6,15 @@
   "question_image": "assets/question_images/ENG-000017-question.png",
   "answer_text": "💡 正解は A. near\n\nnearは、後ろに場所を直接置いて「〜の近く」を表せます。\n\n🗣️ It's near the bank.\n「銀行の近くです。」\n\n🔑 near the bank / next to the bank",
   "publish_at": "2026-08-21T20:30:00+09:00",
-  "status": "failed",
+  "status": "posted",
   "execution_eligibility": "scheduled",
   "parent_status": "posted",
-  "answer_status": "failed",
+  "answer_status": "posted",
   "parent_post_id": "17881064271623623",
   "difficulty_level": "L2",
-  "error": {
-    "code": "THREADS_REPLY_FAILURE",
-    "reason": "Meta HTTP 400: The requested resource does not exist (type=OAuthException, code=24, subcode=4279009)",
-    "meta": {
-      "http_status": 400,
-      "endpoint": "https://graph.threads.net/me/threads_publish",
-      "method": "POST",
-      "payload": {
-        "creation_id": "18096439436062590"
-      },
-      "message": "The requested resource does not exist",
-      "type": "OAuthException",
-      "code": 24,
-      "subcode": 4279009,
-      "fbtrace_id": "AT59_hQAR5Yf97tzXhYWg7_"
-    }
-  }
+  "error": null,
+  "reply_recovery_attempts": 1,
+  "remote_post_id": "17881064271623623",
+  "remote_reply_id": "18106354667134779",
+  "posted_at": "2026-08-21T21:08:16.937303+09:00"
 }

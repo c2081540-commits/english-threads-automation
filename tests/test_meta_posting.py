@@ -127,6 +127,10 @@ class ThreadsMetaPostingTests(unittest.TestCase):
 
     def test_reply_only_recovery_reuses_parent_and_never_creates_parent(self):
         source = json.loads((REPO_ROOT / "data" / "queue" / "ENG-000017.json").read_text())
+        source.update(status="failed", parent_status="posted", answer_status="failed",
+                      error={"meta": {"payload": {"creation_id": "18096439436062590"}}})
+        for field in ("remote_post_id", "remote_reply_id", "posted_at", "reply_recovery_attempts"):
+            source.pop(field, None)
         target = self.root / "ENG-000017.json"
         target.write_text(json.dumps(source, ensure_ascii=False), encoding="utf-8")
         receipt = self.root / "receipts" / "threads-ENG-000017-parent.json"

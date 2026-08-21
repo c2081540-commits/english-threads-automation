@@ -2,13 +2,14 @@
   "content_id": "ENG-000027",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "この状態、英語なら？",
+  "parent_text": "画像と英文、両方がヒント。",
   "question_image": "assets/question_images/ENG-000027-question.png",
-  "answer_text": "💡 正解は A. crowded\n\n画像では、道路に車が多く混み合っています。\n\n📝 The road is crowded.\n「道路は混んでいます。」\n\n🔑 crowded＝混雑した",
+  "answer_text": "💡 正解は A. too many\n\ncarsは数えられるので、too manyを使います。\n\n📝 There are too many cars on the road.\n「道路には車が多すぎます。」\n\n🔑 too many＋数えられる名詞",
   "publish_at": "2026-08-23T15:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

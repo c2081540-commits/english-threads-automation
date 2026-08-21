@@ -2,13 +2,14 @@
   "content_id": "ENG-000041",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "短く返すなら？",
+  "parent_text": "パッと選べる？",
   "question_image": "assets/question_images/ENG-000041-question.png",
-  "answer_text": "💡 正解は A. Yes, please.\n\n手伝いの申し出を受ける、丁寧で自然な返答です。\n\n🗣️ Yes, please.\n「はい、お願いします。」",
+  "answer_text": "💡 正解は A. to help\n\noffer to helpで「手伝うと申し出る」という意味になります。\n\n🗣️ She offers to help him with the boxes.\n「彼女は箱を運ぶのを手伝うと申し出ています。」\n\n🔑 offer to＋動詞＝〜すると申し出る",
   "publish_at": "2026-08-25T20:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

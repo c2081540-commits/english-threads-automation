@@ -34,9 +34,22 @@
   "question_repeats_visual": null,
   "instagram_caption": "基礎表現をひとつ確認。",
   "instagram_hashtags": [],
-  "threads_parent_text": "パッと答えられる？",
+  "threads_parent_text": "似てるけど、違い分かる？",
   "threads_answer_text": "💡 正解は A. yet\n\n否定文のyetは「まだ」という意味で、文末に置きます。\n\n📝 I haven't eaten lunch yet.\n「私はまだ昼食を食べていません。」\n\n🔑 否定文のyet＝まだ",
   "publish_at": "2026-08-25T09:30:00+09:00",
   "question_guide_ja": "「昼食はまだ」ならどっち？",
-  "question_role": "learning_sentence"
+  "question_role": "learning_sentence",
+  "difficulty_gate": {
+    "visual_only_solvable": false,
+    "common_sense_only": false,
+    "effective_choice_count": 2,
+    "weak_distractor_count": 0,
+    "unique_answer": true,
+    "visual_contributes_to_decision": null,
+    "difficulty": "TARGET",
+    "initial_difficulty": "TARGET",
+    "decision": "KEEP"
+  },
+  "difficulty_level": "L2",
+  "learning_point": "否定文のyet"
 }

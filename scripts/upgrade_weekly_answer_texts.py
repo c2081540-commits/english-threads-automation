@@ -336,12 +336,11 @@ def main() -> int:
     queue_dir = REPO_ROOT / "data" / "queue"
     master_dir = REPO_ROOT / "data" / "master" / "quiz"
     changed_queues = 0
-    for content_id, answer_text in ANSWERS.items():
+    for content_id in ANSWERS:
         master_path = master_dir / f"{content_id}.json"
         master = json.loads(master_path.read_text(encoding="utf-8"))
-        master["threads_answer_text"] = answer_text
+        answer_text = master["threads_answer_text"]
         build_answer_text(master)
-        master_path.write_text(json.dumps(master, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
         queue_path = queue_dir / f"{content_id}.json"
         queue = json.loads(queue_path.read_text(encoding="utf-8"))

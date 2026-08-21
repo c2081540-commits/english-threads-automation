@@ -36,9 +36,22 @@
   "question_repeats_visual": null,
   "instagram_caption": "今日の1問。答えは2枚目へ。",
   "instagram_hashtags": [],
-  "threads_parent_text": "これ分かったら基礎はOK。",
+  "threads_parent_text": "ここ、よく迷います。",
   "threads_answer_text": "💡 正解は A. take a break\n\ntake a breakで「休憩する」という意味になります。\n\n🗣️ Let's take a break.\n「休憩しましょう。」\n\n🔑 take a break＝休憩する",
   "publish_at": "2026-08-26T20:30:00+09:00",
   "question_guide_ja": "「休憩する」の意味になるのはどれ？",
-  "question_role": "meta_instruction"
+  "question_role": "meta_instruction",
+  "difficulty_gate": {
+    "visual_only_solvable": false,
+    "common_sense_only": false,
+    "effective_choice_count": 3,
+    "weak_distractor_count": 0,
+    "unique_answer": true,
+    "visual_contributes_to_decision": null,
+    "difficulty": "TARGET",
+    "initial_difficulty": "TARGET",
+    "decision": "KEEP"
+  },
+  "difficulty_level": "L2",
+  "learning_point": "take a break"
 }

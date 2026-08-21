@@ -22,7 +22,8 @@ class WeeklyThreadsTests(unittest.TestCase):
         expected_visual = {8, 10, 14, 16, 20, 23, 26, 27, 32, 34, 39, 41, 44, 46}
         for number in expected_visual:
             queue = json.loads((REPO_ROOT / "data" / "queue" / f"ENG-{number:06d}.json").read_text(encoding="utf-8"))
-            self.assertEqual(queue["parent_status"], "pending")
+            self.assertEqual(queue["parent_status"],
+                             "posted" if number == 14 else "pending")
             self.assertIsNotNone(queue["question_image"])
             self.assertTrue((REPO_ROOT / queue["question_image"]).is_file())
 

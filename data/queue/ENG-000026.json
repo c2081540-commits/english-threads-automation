@@ -2,13 +2,14 @@
   "content_id": "ENG-000026",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "一番合う単語は？",
+  "parent_text": "ここ、よく迷います。",
   "question_image": "assets/question_images/ENG-000026-question.png",
-  "answer_text": "💡 正解は A. empty\n\n画像では、カップの中に何も入っていません。\n\n📝 The cup is empty.\n「カップは空です。」\n\n🔑 empty＝空の",
+  "answer_text": "💡 正解は A. anything\n\n否定文ではanythingを使って「何も〜ない」を表します。\n\n📝 There isn't anything in the cup.\n「カップには何も入っていません。」\n\n🔑 not ... anything＝何も〜ない",
   "publish_at": "2026-08-23T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

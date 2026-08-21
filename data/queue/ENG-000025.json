@@ -2,7 +2,7 @@
   "content_id": "ENG-000025",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "パッと答えられる？",
+  "parent_text": "基本、覚えてる？",
   "question_image": "assets/question_images/ENG-000025-question.png",
   "answer_text": "💡 正解は B. are eating\n\nnowがあるので、今している動作を表すare eatingを使います。\n\n📝 We are eating dinner now.\n「私たちは今、夕食を食べています。」\n\n🔑 now → be動詞＋-ing",
   "publish_at": "2026-08-23T09:30:00+09:00",
@@ -10,5 +10,6 @@
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L1"
 }

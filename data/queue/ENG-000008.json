@@ -2,13 +2,14 @@
   "content_id": "ENG-000008",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "一番合う単語は？",
+  "parent_text": "場面まで見て選べる？",
   "question_image": "assets/question_images/ENG-000008-question.png",
-  "answer_text": "💡 正解は A. rolling up\n\n画像では、袖を上へまくる動作をしています。\n\n📝 He is rolling up his sleeves.\n「彼は袖をまくっています。」\n\n🔑 roll up one's sleeves＝袖をまくる",
+  "answer_text": "💡 正解は A. rolling\n\n今している動作なので、isの後ろにrollingを置きます。\n\n📝 He is rolling up his sleeves.\n「彼は袖をまくっています。」\n\n🔑 is＋-ing＝今している動作",
   "publish_at": "2026-08-20T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

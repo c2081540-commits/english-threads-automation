@@ -2,13 +2,14 @@
   "content_id": "ENG-000040",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "ここ、よく迷います。",
+  "parent_text": "この場面、どう言う？",
   "question_image": "assets/question_images/ENG-000040-question.png",
-  "answer_text": "💡 正解は A. Could you repeat that?\n\n聞き取れなかったときに、もう一度言ってもらう丁寧な表現です。\n\n🗣️ Could you repeat that?\n「もう一度言っていただけますか？」",
+  "answer_text": "💡 正解は A. repeat\n\nCould youの後ろでは、動詞をそのままの形で使います。\n\n🗣️ Could you repeat that?\n「もう一度言っていただけますか？」\n\n🔑 Could you＋動詞＝〜していただけますか",
   "publish_at": "2026-08-25T18:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

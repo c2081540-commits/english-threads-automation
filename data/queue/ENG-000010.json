@@ -2,13 +2,14 @@
   "content_id": "ENG-000010",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "こう聞かれたら何て返す？",
+  "parent_text": "この場面ならどう言う？",
   "question_image": "assets/question_images/ENG-000010-question.png",
-  "answer_text": "💡 正解は A. Sure.\n\nCould you ...? という依頼を引き受ける、自然で短い返答です。\n\n🗣️ Sure. I'll turn it on.\n「もちろん。つけますね。」",
+  "answer_text": "💡 正解は A. on\n\n暑い部屋でエアコンをつけるので、turn onを使います。\n\n🗣️ He'll turn on the AC.\n「彼がエアコンをつけます。」\n\n🔑 turn on＝つける / turn off＝消す",
   "publish_at": "2026-08-20T18:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

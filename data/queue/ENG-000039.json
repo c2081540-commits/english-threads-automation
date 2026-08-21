@@ -2,13 +2,14 @@
   "content_id": "ENG-000039",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "この状態、英語なら？",
+  "parent_text": "写真と英文を見て考えてみよう。",
   "question_image": "assets/question_images/ENG-000039-question.png",
-  "answer_text": "💡 正解は A. leaking\n\n画像では、ボトルから液体が漏れています。\n\n📝 The bottle is leaking.\n「ボトルから液体が漏れています。」\n\n🔑 leak＝漏れる",
+  "answer_text": "💡 正解は A. out\n\n水がボトルの中から外へ出ているので、out ofを使います。\n\n📝 Water is coming out of the bottle.\n「ボトルから水が出ています。」\n\n🔑 out of＝〜の中から外へ",
   "publish_at": "2026-08-25T15:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

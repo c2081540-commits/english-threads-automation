@@ -96,10 +96,10 @@ class ThreadsConnectionTestTests(unittest.TestCase):
         self.assertEqual(len(production), 49)
         posted = [item for item in production if item["status"] == "posted"]
         self.assertEqual(sorted(item["content_id"] for item in posted),
-                         ["ENG-000009", "ENG-000012", "ENG-000013"])
+                         ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015"])
         self.assertTrue(all(item["status"] == "pending" and "remote_post_id" not in item
                             for item in production if item["content_id"] not in
-                            {"ENG-000009", "ENG-000012", "ENG-000013"}))
+                            {"ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015"}))
 
 
 if __name__ == "__main__":

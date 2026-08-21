@@ -34,10 +34,23 @@
   "question_repeats_visual": null,
   "instagram_caption": "まずは3秒で考えてみよう。",
   "instagram_hashtags": [],
-  "threads_parent_text": "これ、意外と迷う。",
+  "threads_parent_text": "まずはここから。",
   "threads_answer_text": "💡 正解は A. speak\n\ncanの後ろでは、動詞をそのままの形で使います。\n\n📝 Can you speak English?\n「英語を話せますか？」\n\n🔑 can＋動詞のそのままの形",
   "publish_at": "2026-08-25T07:00:00+09:00",
   "answer_point": "can の後ろ → 動詞の原形",
   "question_guide_ja": "「英語を話せる？」ならどっち？",
-  "question_role": "learning_sentence"
+  "question_role": "learning_sentence",
+  "difficulty_gate": {
+    "visual_only_solvable": false,
+    "common_sense_only": false,
+    "effective_choice_count": 2,
+    "weak_distractor_count": 0,
+    "unique_answer": true,
+    "visual_contributes_to_decision": null,
+    "difficulty": "TARGET",
+    "initial_difficulty": "TARGET",
+    "decision": "KEEP"
+  },
+  "difficulty_level": "L1",
+  "learning_point": "can＋動詞"
 }

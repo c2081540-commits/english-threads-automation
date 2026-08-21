@@ -2,7 +2,7 @@
   "content_id": "ENG-000019",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "パッと答えられる？",
+  "parent_text": "ここ、よく迷います。",
   "question_image": "assets/question_images/ENG-000019-question.png",
   "answer_text": "💡 正解は A. just\n\nhave just finishedで「ちょうど終えたところ」を表します。\n\n📝 I have just finished lunch.\n「私はちょうど昼食を終えたところです。」\n\n🔑 have just finished＝ちょうど終えた",
   "publish_at": "2026-08-22T09:30:00+09:00",
@@ -10,5 +10,6 @@
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

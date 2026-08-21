@@ -2,13 +2,14 @@
   "content_id": "ENG-000011",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "これ分かったら基礎はOK。",
+  "parent_text": "仕事で使うなら？",
   "question_image": "assets/question_images/ENG-000011-question.png",
-  "answer_text": "💡 正解は A. That's all, thank you.\n\n追加はないと丁寧に伝えるときの定番表現です。\n\n🗣️ That's all, thank you.\n「以上です。ありがとうございます。」",
+  "answer_text": "💡 正解は A. else\n\nanything elseで「ほかに何か」という意味になります。\n\n🗣️ Would you like anything else?\n「ほかに何かいかがですか？」\n\n🔑 anything else＝ほかに何か",
   "publish_at": "2026-08-20T20:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "past_due_hold",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

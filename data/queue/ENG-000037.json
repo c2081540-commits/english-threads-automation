@@ -2,7 +2,7 @@
   "content_id": "ENG-000037",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "パッと答えられる？",
+  "parent_text": "似てるけど、違い分かる？",
   "question_image": "assets/question_images/ENG-000037-question.png",
   "answer_text": "💡 正解は A. yet\n\n否定文のyetは「まだ」という意味で、文末に置きます。\n\n📝 I haven't eaten lunch yet.\n「私はまだ昼食を食べていません。」\n\n🔑 否定文のyet＝まだ",
   "publish_at": "2026-08-25T09:30:00+09:00",
@@ -10,5 +10,6 @@
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

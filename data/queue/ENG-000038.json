@@ -2,7 +2,7 @@
   "content_id": "ENG-000038",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "10秒でどうぞ。",
+  "parent_text": "実際に使うならどっち？",
   "question_image": "assets/question_images/ENG-000038-question.png",
   "answer_text": "💡 正解は A. that\n\nthatがbookとI boughtをつなぎ、「私が買った本」を表します。\n\n📝 This is the book that I bought.\n「これは私が買った本です。」\n\n🔑 the book that I bought＝私が買った本",
   "publish_at": "2026-08-25T12:00:00+09:00",
@@ -10,5 +10,6 @@
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

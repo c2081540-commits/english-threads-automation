@@ -2,13 +2,14 @@
   "content_id": "ENG-000044",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "一番合う単語は？",
+  "parent_text": "写真と英文を見て考えてみよう。",
   "question_image": "assets/question_images/ENG-000044-question.png",
-  "answer_text": "💡 正解は A. folding\n\n画像では、紙を折っているところです。\n\n📝 She is folding the paper.\n「彼女は紙を折っています。」\n\n🔑 fold＝折る",
+  "answer_text": "💡 正解は A. in\n\nfold ... in halfで「〜を半分に折る」を表します。\n\n📝 She is folding the paper in half.\n「彼女は紙を半分に折っています。」\n\n🔑 in half＝半分に",
   "publish_at": "2026-08-26T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

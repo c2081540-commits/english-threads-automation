@@ -2,13 +2,14 @@
   "content_id": "ENG-000023",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "短く返すなら？",
+  "parent_text": "パッと選べる？",
   "question_image": "assets/question_images/ENG-000023-question.png",
-  "answer_text": "💡 正解は A. Sure.\n\n窓を閉めてほしいという依頼を、快く引き受ける返答です。\n\n🗣️ Sure.\n「もちろんです。」",
+  "answer_text": "💡 正解は A. about\n\nbe about to ...で「今にも〜する」を表します。\n\n🗣️ She is about to close the window.\n「彼女は今、窓を閉めようとしています。」\n\n🔑 be about to＋動詞＝今にも〜する",
   "publish_at": "2026-08-22T20:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

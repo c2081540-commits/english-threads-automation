@@ -2,13 +2,14 @@
   "content_id": "ENG-000017",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "これ分かったら基礎はOK。",
+  "parent_text": "パッと選べる？",
   "question_image": "assets/question_images/ENG-000017-question.png",
-  "answer_text": "💡 正解は A. It's near the bank.\n\n場所を聞かれているので、位置を伝える返答が自然です。\n\n🗣️ It's near the bank.\n「銀行の近くです。」",
+  "answer_text": "💡 正解は A. near\n\nnearは、後ろに場所を直接置いて「〜の近く」を表せます。\n\n🗣️ It's near the bank.\n「銀行の近くです。」\n\n🔑 near the bank / next to the bank",
   "publish_at": "2026-08-21T20:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

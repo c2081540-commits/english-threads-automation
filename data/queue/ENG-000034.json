@@ -2,13 +2,14 @@
   "content_id": "ENG-000034",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "こう聞かれたら何て返す？",
+  "parent_text": "この場面ならどう言う？",
   "question_image": "assets/question_images/ENG-000034-question.png",
-  "answer_text": "💡 正解は A. Of course.\n\n座ってよいか許可を求められたときの自然な返答です。\n\n🗣️ Of course.\n「もちろんです。」",
+  "answer_text": "💡 正解は A. You can sit here.\n\n相手に席を勧めるので、主語はyouです。\n\n🗣️ You can sit here.\n「ここに座っていいですよ。」\n\n🔑 you＝相手 / I＝自分",
   "publish_at": "2026-08-24T18:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L2"
 }

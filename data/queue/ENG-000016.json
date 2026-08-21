@@ -2,13 +2,14 @@
   "content_id": "ENG-000016",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "こう聞かれたら何て返す？",
+  "parent_text": "この場面、どう言う？",
   "question_image": "assets/question_images/ENG-000016-question.png",
-  "answer_text": "💡 正解は A. Yes, please.\n\n飲み物の申し出を受ける、丁寧で自然な返答です。\n\n🗣️ Yes, please.\n「はい、お願いします。」\n\n🔑 Would you like ...?＝申し出",
+  "answer_text": "💡 正解は A. like\n\nI'd like ...は、欲しいものを丁寧に伝える表現です。\n\n🗣️ Yes, I'd like some, please.\n「はい、少しいただきたいです。」\n\n🔑 I'd like ...＝〜をお願いします",
   "publish_at": "2026-08-21T18:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
-  "parent_post_id": null
+  "parent_post_id": null,
+  "difficulty_level": "L3"
 }

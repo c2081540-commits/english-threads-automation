@@ -1,17 +1,24 @@
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter, defaultdict
+from difflib import SequenceMatcher
 from pathlib import Path
 
 from .content import validate_hook_guide
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = REPO_ROOT / "config" / "difficulty_levels.json"
+HOOK_POLICY_PATH = REPO_ROOT / "config" / "thread_hook_policy.json"
 
 
 def load_config() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+
+
+def load_hook_policy() -> dict:
+    return json.loads(HOOK_POLICY_PATH.read_text(encoding="utf-8"))
 
 
 def question_type(item: dict) -> str:
@@ -27,13 +34,69 @@ def validate_level(item: dict) -> None:
 
 def allowed_hooks(item: dict) -> list[str]:
     validate_level(item)
-    return load_config()["hook_pools"][item["difficulty_level"]][question_type(item)]
+    kind = question_type(item)
+    learning_point = item.get("learning_point", "")
+    if kind == "situation":
+        topic_kind = "situation"
+    elif kind == "visual":
+        topic_kind = "visual"
+    elif "と" in learning_point or "使い分け" in learning_point:
+        topic_kind = "contrast"
+    else:
+        topic_kind = "form"
+    policy = load_hook_policy()
+    patterns = policy["generation_patterns"][item["difficulty_level"]][kind]
+    return [pattern.format(topic=topic) for pattern in patterns
+            for topic in policy["topic_options"][topic_kind]]
 
 
 def validate_hook_for_item(item: dict, hook: str) -> None:
-    if hook not in allowed_hooks(item):
-        raise ValueError(f"hook is not allowed for difficulty/question type: {item.get('content_id')}")
+    validate_level(item)
+    policy = load_hook_policy()
+    if not isinstance(hook, str) or not hook.strip() or len(hook) > policy["max_length"]:
+        raise ValueError(f"invalid hook length: {item.get('content_id')}")
+    if any(term in hook for term in policy["instruction_style_substrings"]):
+        raise ValueError(f"instruction-style hook is prohibited: {item.get('content_id')}")
+    kind = question_type(item)
+    learning_point = item.get("learning_point", "")
+    for constraint in policy["content_constraints"]:
+        if not any(term in hook for term in constraint["hook_terms"]):
+            continue
+        if "question_types" in constraint and kind not in constraint["question_types"]:
+            raise ValueError(f"hook/question type mismatch: {item.get('content_id')}")
+        if "learning_point_terms" in constraint and not any(
+                term in learning_point for term in constraint["learning_point_terms"]):
+            raise ValueError(f"hook/learning point mismatch: {item.get('content_id')}")
+    answer_values = [item.get("best_answer", ""), *item.get("acceptable_answers", [])]
+    normalized_hook = re.sub(r"\s+", "", hook).casefold()
+    for answer in answer_values:
+        normalized_answer = re.sub(r"\s+", "", str(answer)).casefold().strip(".!?")
+        if len(normalized_answer) >= 3 and normalized_answer in normalized_hook:
+            raise ValueError(f"hook reveals the answer: {item.get('content_id')}")
     validate_hook_guide(hook, item.get("question_guide_ja"), item["visual_required"])
+
+
+def _normalized_hook(value: str) -> str:
+    return re.sub(r"[\W_]+", "", value.casefold())
+
+
+def validate_hook_sequence(items: list[dict]) -> None:
+    policy = load_hook_policy()
+    ordered = sorted(items, key=lambda item: item["publish_at"])
+    for index, item in enumerate(ordered):
+        hook = item["threads_parent_text"]
+        validate_hook_for_item(item, hook)
+        recent = ordered[max(0, index - policy["exact_duplicate_window"]):index]
+        if any(previous["threads_parent_text"] == hook for previous in recent):
+            raise ValueError(f"exact hook duplicate within 20: {item['content_id']}")
+        same_day_previous = [previous for previous in recent
+                             if previous["publish_at"][:10] == item["publish_at"][:10]]
+        normalized = _normalized_hook(hook)
+        for previous in same_day_previous:
+            ratio = SequenceMatcher(None, _normalized_hook(previous["threads_parent_text"]),
+                                    normalized).ratio()
+            if ratio >= policy["similar_same_day_threshold"]:
+                raise ValueError(f"similar hook on same day: {item['content_id']}")
 
 
 def choose_hook(item: dict, recently_used: list[str]) -> str:
@@ -41,7 +104,7 @@ def choose_hook(item: dict, recently_used: list[str]) -> str:
     start = int(item["content_id"].split("-")[1]) % len(candidates)
     for offset in range(len(candidates)):
         candidate = candidates[(start + offset) % len(candidates)]
-        if candidate in recently_used[-2:]:
+        if candidate in recently_used[-load_hook_policy()["exact_duplicate_window"]:]:
             continue
         try:
             validate_hook_for_item(item, candidate)

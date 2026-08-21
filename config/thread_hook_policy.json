@@ -1,0 +1,41 @@
+{
+  "exact_duplicate_window": 20,
+  "similar_same_day_threshold": 0.82,
+  "max_length": 32,
+  "instruction_style_substrings": [
+    "写真と英文", "画像と英文", "画像を見て", "写真を見て", "英文を読んで",
+    "選択肢から", "考えてみよう", "答えてみよう", "両方がヒント"
+  ],
+  "content_constraints": [
+    {"hook_terms": ["会話", "返し"], "question_types": ["situation"]},
+    {"hook_terms": ["動作", "動き"], "question_types": ["visual"]},
+    {"hook_terms": ["時制"], "learning_point_terms": ["現在", "過去", "完了", "時制"]},
+    {"hook_terms": ["前置詞"], "learning_point_terms": ["at", "in", "on", "by", "until", "with", "up", "out"]},
+    {"hook_terms": ["数え"], "learning_point_terms": ["many", "much", "可算", "不可算"]},
+    {"hook_terms": ["時間表現", "予定"], "learning_point_terms": ["at", "on", "since", "for", "after", "later"]},
+    {"hook_terms": ["否定文"], "learning_point_terms": ["否定文", "Don't", "anything", "yet"]}
+  ],
+  "topic_options": {
+    "situation": ["表現", "ひと言", "言い回し"],
+    "visual": ["言い方", "表現", "英語"],
+    "contrast": ["使い分け", "違い", "選び分け"],
+    "form": ["形", "基本", "ポイント"]
+  },
+  "generation_patterns": {
+    "L1": {
+      "text": ["{topic}をサクッと確認。", "基本の{topic}、覚えてる？", "まずは{topic}から。"],
+      "visual": ["身近な{topic}で基礎確認。", "{topic}、すぐ出る？"],
+      "situation": ["定番の{topic}、すぐ出る？", "まずは短い{topic}から。"]
+    },
+    "L2": {
+      "text": ["{topic}、なんとなくで選んでない？", "{topic}の違い、残ってる？", "短い文ほど{topic}で迷いやすい。"],
+      "visual": ["この{topic}、英語でどうつなぐ？", "{topic}まで意識できる？", "似た形、場面で区別できる？"],
+      "situation": ["定番の{topic}、すぐ出る？", "短い場面ほど{topic}が大事。", "実際に使う{topic}、選べる？"]
+    },
+    "L3": {
+      "text": ["文脈の中で{topic}を選べる？", "実際に使うなら{topic}は？"],
+      "visual": ["場面が変わると{topic}も変わる。", "この動作、{topic}まで選べる？"],
+      "situation": ["この場面、{topic}は自然に出る？", "実際の会話で{topic}を選べる？", "短い場面ほど{topic}で差がつく。"]
+    }
+  }
+}

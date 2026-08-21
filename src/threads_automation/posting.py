@@ -50,6 +50,13 @@ def _write_json_atomic(path: Path, value: dict) -> None:
     os.replace(temporary, path)
 
 
+def _safe_error(exc: PostingError, code: str) -> dict:
+    result = {"code": code, "reason": str(exc)[:500]}
+    if exc.details:
+        result["meta"] = exc.details
+    return result
+
+
 class PublicMediaResolver:
     def __init__(self, checker=None):
         config = json.loads(MEDIA_CONFIG.read_text(encoding="utf-8"))
@@ -156,9 +163,9 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
                 reply_id = client.publish(reply_container)
             except PostingError as exc:
                 queue.update(status="failed", answer_status="failed",
-                             error={"code": "THREADS_REPLY_FAILURE", "reason": str(exc)[:200]})
+                             error=_safe_error(exc, "THREADS_REPLY_FAILURE"))
                 _write_json_atomic(queue_path, queue)
-                raise PostingError("THREADS_REPLY_FAILURE", str(exc)) from exc
+                raise PostingError("THREADS_REPLY_FAILURE", str(exc), exc.details) from exc
             queue.update(answer_status="posted", remote_reply_id=reply_id)
             remote_id = parent_id
         posted_at = now.isoformat()
@@ -176,8 +183,64 @@ def post_one(queue_path: Path, client, resolver: PublicMediaResolver,
                 code = exc.code
             else:
                 code = "THREADS_PARENT_FAILURE" if queue.get("content_type") == "quiz" else exc.code
-            queue.update(status="failed", error={"code": code, "reason": str(exc)[:200]})
+            queue.update(status="failed", error=_safe_error(exc, code))
             if queue.get("content_type") == "quiz":
                 queue.update(parent_status="failed")
             _write_json_atomic(queue_path, queue)
         raise
+
+
+def recover_reply(queue_path: Path, client=None, *, dry_run_only: bool = True,
+                  now: datetime | None = None) -> dict:
+    """Resume a failed quiz at reply creation without recreating its parent."""
+    now = now or datetime.now(ZoneInfo("Asia/Tokyo"))
+    queue = json.loads(queue_path.read_text(encoding="utf-8"))
+    validate_queue_for_post(queue)
+    if queue.get("content_type") != "quiz":
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Reply recovery requires a quiz queue")
+    if (queue.get("status"), queue.get("parent_status"), queue.get("answer_status")) != (
+            "failed", "posted", "failed"):
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Queue is not in failed-reply recovery state")
+    receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}.json"
+    parent_receipt_path = RECEIPT_DIR / f"threads-{queue['content_id']}-parent.json"
+    if receipt_path.is_file():
+        raise PostingError("DUPLICATE_PREVENTED", "Final receipt already exists")
+    if not parent_receipt_path.is_file():
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Parent receipt is required")
+    parent_receipt = json.loads(parent_receipt_path.read_text(encoding="utf-8"))
+    parent_id = parent_receipt.get("remote_post_id")
+    if not isinstance(parent_id, str) or not parent_id:
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Parent receipt has no remote_post_id")
+    if queue.get("parent_post_id") != parent_id:
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Queue and parent receipt IDs do not match")
+    plan = {
+        "content_id": queue["content_id"],
+        "parent_post_id": parent_id,
+        "parent_action": "reuse_only",
+        "create_endpoint": "https://graph.threads.net/me/threads",
+        "create_payload": {"media_type": "TEXT", "text": queue["answer_text"],
+                           "reply_to_id": parent_id},
+        "publish_endpoint": "https://graph.threads.net/me/threads_publish",
+        "publish_payload": {"creation_id": "<reply_container_id>"},
+    }
+    if dry_run_only:
+        return plan
+    if client is None:
+        raise PostingError("RECOVERY_NOT_ALLOWED", "Live recovery requires a Meta client")
+    try:
+        reply_container = client.create_text_container(queue["answer_text"], reply_to_id=parent_id)
+        reply_id = client.publish(reply_container)
+    except PostingError as exc:
+        queue["error"] = _safe_error(exc, "THREADS_REPLY_FAILURE")
+        _write_json_atomic(queue_path, queue)
+        raise PostingError("THREADS_REPLY_FAILURE", str(exc), exc.details) from exc
+    posted_at = now.isoformat()
+    receipt = {"content_id": queue["content_id"], "platform": "threads",
+               "remote_post_id": parent_id, "remote_reply_id": reply_id,
+               "posted_at": posted_at}
+    _write_json_atomic(receipt_path, receipt)
+    queue.update(status="posted", parent_status="posted", answer_status="posted",
+                 remote_post_id=parent_id, remote_reply_id=reply_id,
+                 posted_at=posted_at, error=None)
+    _write_json_atomic(queue_path, queue)
+    return queue

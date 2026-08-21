@@ -3,6 +3,8 @@ import os
 import sys
 import tempfile
 import unittest
+import urllib.error
+from io import BytesIO
 from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
@@ -11,7 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 import threads_automation.posting as posting
-from threads_automation.meta_client import (PostingError, ThreadsMetaClient,
+from threads_automation.meta_client import (HttpTransport, PostingError, ThreadsMetaClient,
                                              ThreadsSecrets)
 
 
@@ -108,6 +110,26 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
         self.assertEqual(result["parent_post_id"], "existing-parent-id")
 
+    def test_reply_only_recovery_reuses_parent_and_never_creates_parent(self):
+        source = json.loads((REPO_ROOT / "data" / "queue" / "ENG-000016.json").read_text())
+        target = self.root / "ENG-000016.json"
+        target.write_text(json.dumps(source, ensure_ascii=False), encoding="utf-8")
+        receipt = self.root / "receipts" / "threads-ENG-000016-parent.json"
+        receipt.parent.mkdir(parents=True)
+        receipt.write_text(json.dumps({"remote_post_id": source["parent_post_id"]}), encoding="utf-8")
+        plan = posting.recover_reply(target, dry_run_only=True)
+        self.assertEqual(plan["parent_action"], "reuse_only")
+        self.assertEqual(plan["create_payload"]["reply_to_id"], source["parent_post_id"])
+        self.assertEqual(plan["create_payload"]["media_type"], "TEXT")
+        self.assertEqual(plan["create_endpoint"], "https://graph.threads.net/me/threads")
+        client = FakeThreadsClient()
+        result = posting.recover_reply(target, client, dry_run_only=False,
+                                       now=datetime.fromisoformat("2026-08-21T19:00:00+09:00"))
+        self.assertEqual([call[0] for call in client.calls], ["text", "publish"])
+        self.assertEqual(client.calls[0][2], source["parent_post_id"])
+        self.assertEqual(result["parent_post_id"], source["parent_post_id"])
+        self.assertEqual(result["status"], "posted")
+
     def test_normal_success(self):
         target = self.queue_copy("ENG-100002")
         result = posting.post_one(target, FakeThreadsClient(), self.resolver,
@@ -167,7 +189,25 @@ class ThreadsMetaPostingTests(unittest.TestCase):
         client = ThreadsMetaClient(ThreadsSecrets("token", "user"),
                                    transport=lambda url, fields: calls.append(url) or {"id": "container"})
         client.create_text_container("test")
-        self.assertEqual(calls, ["https://graph.threads.net/user/threads"])
+        self.assertEqual(calls, ["https://graph.threads.net/me/threads"])
+
+    def test_http_400_preserves_masked_meta_error_details(self):
+        body = json.dumps({"error": {"message": "Invalid reply target", "type": "OAuthException",
+                                     "code": 100, "error_subcode": 33,
+                                     "fbtrace_id": "safe-trace"}}).encode()
+        error = urllib.error.HTTPError("https://graph.threads.net/me/threads", 400,
+                                      "Bad Request", {}, BytesIO(body))
+        with patch("urllib.request.urlopen", side_effect=error), self.assertRaises(PostingError) as caught:
+            HttpTransport(retries=0)("https://graph.threads.net/me/threads",
+                                     {"media_type": "TEXT", "text": "reply",
+                                      "reply_to_id": "parent", "access_token": "secret-token"})
+        details = caught.exception.details
+        self.assertEqual((details["http_status"], details["message"], details["type"],
+                          details["code"], details["subcode"], details["fbtrace_id"]),
+                         (400, "Invalid reply target", "OAuthException", 100, 33, "safe-trace"))
+        self.assertNotIn("access_token", details["payload"])
+        self.assertNotIn("secret-token", str(caught.exception))
+        self.assertNotIn("secret-token", json.dumps(details))
 
 
 if __name__ == "__main__":

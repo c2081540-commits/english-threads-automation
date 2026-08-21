@@ -11,9 +11,10 @@ from dataclasses import dataclass
 
 
 class PostingError(RuntimeError):
-    def __init__(self, code: str, message: str):
+    def __init__(self, code: str, message: str, details: dict | None = None):
         super().__init__(message)
         self.code = code
+        self.details = details or {}
 
 
 @dataclass(frozen=True)
@@ -47,14 +48,38 @@ class HttpTransport:
                     raise PostingError("MALFORMED_API_RESPONSE", "Meta response must be a JSON object")
                 return payload
             except urllib.error.HTTPError as exc:
+                raw = exc.read().decode("utf-8", errors="replace")
+                try:
+                    response = json.loads(raw)
+                except json.JSONDecodeError:
+                    response = {}
+                error = response.get("error") if isinstance(response, dict) else None
+                error = error if isinstance(error, dict) else {}
+                details = {
+                    "http_status": exc.code,
+                    "endpoint": url,
+                    "method": "POST",
+                    "payload": {key: value for key, value in fields.items()
+                                if key != "access_token"},
+                    "message": str(error.get("message") or "Meta returned no JSON error message"),
+                    "type": error.get("type"),
+                    "code": error.get("code"),
+                    "subcode": error.get("error_subcode"),
+                    "fbtrace_id": error.get("fbtrace_id"),
+                }
                 if exc.code in {401, 403}:
-                    raise PostingError("INVALID_TOKEN", f"Meta authentication failed with HTTP {exc.code}") from exc
+                    raise PostingError("INVALID_TOKEN", f"Meta authentication failed with HTTP {exc.code}",
+                                       details) from exc
                 if exc.code == 429 or 500 <= exc.code < 600:
                     if attempt < self.retries:
                         time.sleep(.25 * (attempt + 1))
                         continue
-                    raise PostingError("NETWORK_TIMEOUT", f"Temporary Meta HTTP failure: {exc.code}") from exc
-                raise PostingError("META_API_ERROR", f"Meta HTTP failure: {exc.code}") from exc
+                    raise PostingError("NETWORK_TIMEOUT", f"Temporary Meta HTTP failure: {exc.code}",
+                                       details) from exc
+                summary = (f"Meta HTTP {exc.code}: {details['message']} "
+                           f"(type={details['type']}, code={details['code']}, "
+                           f"subcode={details['subcode']})")
+                raise PostingError("META_API_ERROR", summary, details) from exc
             except (urllib.error.URLError, TimeoutError, socket.timeout) as exc:
                 if attempt < self.retries:
                     time.sleep(.25 * (attempt + 1))
@@ -78,7 +103,7 @@ class ThreadsMetaClient:
         except PostingError as exc:
             if exc.code in {"MISSING_SECRET", "INVALID_TOKEN", "NETWORK_TIMEOUT", "MALFORMED_API_RESPONSE"}:
                 raise
-            raise PostingError(failure_code, str(exc)) from exc
+            raise PostingError(failure_code, str(exc), exc.details) from exc
         except Exception as exc:
             raise PostingError(failure_code, "Meta transport failed") from exc
         remote_id = payload.get("id") if isinstance(payload, dict) else None
@@ -90,16 +115,16 @@ class ThreadsMetaClient:
         fields = {"media_type": "TEXT", "text": text}
         if reply_to_id:
             fields["reply_to_id"] = reply_to_id
-        return self._post(f"{self.secrets.user_id}/threads", fields, "CONTAINER_CREATION_FAILURE")
+        return self._post("me/threads", fields, "CONTAINER_CREATION_FAILURE")
 
     def create_image_container(self, text: str, image_url: str,
                                reply_to_id: str | None = None) -> str:
         fields = {"media_type": "IMAGE", "text": text, "image_url": image_url}
         if reply_to_id:
             fields["reply_to_id"] = reply_to_id
-        return self._post(f"{self.secrets.user_id}/threads", fields,
+        return self._post("me/threads", fields,
                           "CONTAINER_CREATION_FAILURE")
 
     def publish(self, creation_id: str) -> str:
-        return self._post(f"{self.secrets.user_id}/threads_publish", {"creation_id": creation_id},
+        return self._post("me/threads_publish", {"creation_id": creation_id},
                           "PUBLISH_FAILURE")

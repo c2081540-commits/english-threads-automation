@@ -6,9 +6,13 @@
   "question_image": "assets/question_images/ENG-000013-question.png",
   "answer_text": "💡 正解は B. was\n\n過去の状態には was を使います。",
   "publish_at": "2026-08-21T09:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17995929236812123",
+  "remote_reply_id": "18131409619710776",
+  "remote_post_id": "17995929236812123",
+  "posted_at": "2026-08-21T09:30:41.482300+09:00",
+  "error": null
 }

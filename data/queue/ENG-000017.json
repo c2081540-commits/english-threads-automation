@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ分かったら基礎はOK。",
   "question_image": "assets/question_images/ENG-000017-question.png",
-  "answer_text": "💡 正解は A. It's near the bank.\n\n場所を伝える短い返答が自然です。",
+  "answer_text": "💡 正解は A. It's near the bank.\n\n場所を聞かれているので、位置を伝える返答が自然です。\n\n🗣️ It's near the bank.\n「銀行の近くです。」",
   "publish_at": "2026-08-21T20:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

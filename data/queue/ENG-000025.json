@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "パッと答えられる？",
   "question_image": "assets/question_images/ENG-000025-question.png",
-  "answer_text": "💡 正解は B. are eating\n\n今している動作には現在進行形を使います。",
+  "answer_text": "💡 正解は B. are eating\n\nnowがあるので、今している動作を表すare eatingを使います。\n\n📝 We are eating dinner now.\n「私たちは今、夕食を食べています。」\n\n🔑 now → be動詞＋-ing",
   "publish_at": "2026-08-23T09:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

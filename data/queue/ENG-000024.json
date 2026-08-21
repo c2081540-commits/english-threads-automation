@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ、意外と迷う。",
   "question_image": "assets/question_images/ENG-000024-question.png",
-  "answer_text": "💡 正解は B. heavier\n\n2つを比べるときは比較級を使います。",
+  "answer_text": "💡 正解は B. heavier\n\nthanがあるので、2つを比べるheavierを使います。\n\n📝 This bag is heavier than mine.\n「このバッグは私のものより重いです。」\n\n🔑 heavy → heavier",
   "publish_at": "2026-08-23T07:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

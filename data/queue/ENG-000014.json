@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一番合う単語は？",
   "question_image": "assets/question_images/ENG-000014-question.png",
-  "answer_text": "💡 正解は A. open\n\nopen は「開いている」です。",
+  "answer_text": "💡 正解は A. open\n\n画像ではドアが閉まっておらず、開いた状態です。\n\n📝 The door is open.\n「ドアは開いています。」\n\n🔑 open＝開いている",
   "publish_at": "2026-08-21T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

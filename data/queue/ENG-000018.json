@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "これ、意外と迷う。",
   "question_image": "assets/question_images/ENG-000018-question.png",
-  "answer_text": "💡 正解は A. live\n\nthey の現在形には -s を付けません。",
+  "answer_text": "💡 正解は A. live\n\n主語がTheyなので、動詞はそのままliveを使います。\n\n📝 They live in Tokyo.\n「彼らは東京に住んでいます。」\n\n🔑 I / you / we / they → 動詞はそのまま",
   "publish_at": "2026-08-22T07:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

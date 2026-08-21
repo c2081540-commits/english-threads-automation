@@ -98,7 +98,12 @@ Threads APIは公式の `https://graph.threads.net` をversion pathなしで使�
 
 Quizは問題画像付き親container作成・親publish・短い回答文を持つTEXT container作成・
 `reply_to_id`付き回答publishの順です。回答返信ではInstagram回答画像を参照・送信・公開URL検査せず、
-正解1行＋必要な補足0〜2行だけで完結させます。親成功後に回答が失敗した場合は、`parent_status: posted`と
+正解、短い理由、完成文または会話例、自然な日本語訳をTEXTだけで返します。文法・語法では原則1行の
+`🔑`も付け、語彙・visualは`📝`、会話は`🗣️`を固定用途で使用します。`threads_answer_text`は320文字・
+4〜5内容行を上限とし、正解letter/value、完成文、問題・選択肢の再掲を無料validationで検査します。
+`python3 scripts/export_answer_review.py` は未投稿production Quizの親フック、問題画像、回答TEXT全文を
+`artifacts/review/threads-answers-2026-08-20.txt`へ出力します。
+親成功後に回答が失敗した場合は、`parent_status: posted`と
 `parent_post_id`を保持し、`answer_status: failed`として区別します。NormalはTEXT containerを単独publishします。
 成功receiptをqueue更新より先に保存し、二重投稿リスクを抑えます。
 

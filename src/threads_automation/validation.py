@@ -105,5 +105,21 @@ def validate(content: dict) -> None:
     for field in ("instagram_caption", "threads_parent_text", "threads_answer_text"):
         if not isinstance(content.get(field), str) or not content.get(field, "").strip():
             errors.append(f"{field} must be a non-empty string")
+    answer_text = content.get("threads_answer_text")
+    if isinstance(answer_text, str) and answer_text.strip() and choices:
+        best_index = choices.index(best) if best in choices else None
+        expected = (f"💡 正解は {chr(ord('A') + best_index)}. {best}"
+                    if best_index is not None else None)
+        nonblank = [line for line in answer_text.splitlines() if line.strip()]
+        if answer_text != answer_text.strip() or len(answer_text) > 320 or not 4 <= len(nonblank) <= 5:
+            errors.append("threads_answer_text must be trimmed, at most 320 characters, and 4-5 content lines")
+        if expected is not None and (not nonblank or nonblank[0] != expected):
+            errors.append("threads_answer_text answer letter/value mismatch")
+        if isinstance(content.get("question"), str) and content["question"] in answer_text:
+            errors.append("threads_answer_text must not repeat the original question")
+        if any(re.match(r"^[A-D][.)]\s", line) for line in nonblank[1:]):
+            errors.append("threads_answer_text must not reproduce the choice list")
+        if not any(line.startswith("「") and line.endswith("」") for line in nonblank):
+            errors.append("threads_answer_text requires a Japanese translation")
     if errors:
         raise ValidationError("; ".join(errors))

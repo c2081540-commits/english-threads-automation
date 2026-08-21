@@ -113,14 +113,41 @@ def build_answer_text(content: dict) -> str:
     category = content["category"]
     if category not in {"grammar", "vocabulary", "situation"}:
         raise ValueError(f"Unsupported quiz category: {category}")
-    parts = [f"💡 正解は {choice_answer(content)}"]
-    supplement = content.get("key_difference") or content.get("explanation")
-    if isinstance(supplement, str) and supplement.strip():
-        parts.append(supplement.strip())
-    text = "\n\n".join(parts)
+    text = content.get("threads_answer_text")
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("threads_answer_text must be a non-empty string")
+    if text != text.strip():
+        raise ValueError("threads_answer_text must not have outer whitespace")
     nonblank = [line for line in text.splitlines() if line.strip()]
-    if len(text) > 180 or len(nonblank) > 3:
-        raise ValueError("Threads answer text must be one answer line plus at most two short lines")
+    if len(text) > 320 or not 4 <= len(nonblank) <= 5:
+        raise ValueError("Threads answer text must be at most 320 characters and 4-5 content lines")
+    expected_answer = f"💡 正解は {choice_answer(content)}"
+    if nonblank[0] != expected_answer:
+        raise ValueError("Threads answer letter or answer does not match choices")
+    if any(line.startswith(("A.", "B.", "C.", "D.")) for line in nonblank[1:]):
+        raise ValueError("Threads answer must not reproduce the choice list")
+    if content["question"] in text:
+        raise ValueError("Threads answer must not reproduce the original question")
+    if nonblank[1].startswith(("💡", "📝", "🔑", "🗣️")):
+        raise ValueError("Threads answer reason must be plain text")
+    if not any(line.startswith("「") and line.endswith("」") for line in nonblank):
+        raise ValueError("Threads answer requires one natural Japanese translation")
+
+    production_category = content.get("production_category")
+    example_prefix = "🗣️ " if category == "situation" or (
+        category == "vocabulary" and production_category == "review") else "📝 "
+    example_lines = [line for line in nonblank if line.startswith(("📝 ", "🗣️ "))]
+    if len(example_lines) != 1 or not example_lines[0].startswith(example_prefix):
+        raise ValueError(f"Threads answer requires exactly one {example_prefix.strip()} example line")
+    if category == "grammar":
+        if len([line for line in nonblank if line.startswith("🔑 ")]) != 1:
+            raise ValueError("Grammar Threads answer requires exactly one key point")
+        if "___" in content["question"]:
+            completed = content["question"].replace("___", content["best_answer"])
+            if example_lines[0] != f"📝 {completed}":
+                raise ValueError("Grammar completed sentence must insert the exact best answer")
+        elif content.get("question_role") == "meta_instruction" and example_lines[0] != f"📝 {content['best_answer']}":
+            raise ValueError("Grammar meta question example must equal the best answer")
     return text
 
 

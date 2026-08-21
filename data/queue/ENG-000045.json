@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一度考えてみて。",
   "question_image": "assets/question_images/ENG-000045-question.png",
-  "answer_text": "💡 正解は A. on\n\non Monday → 月曜に\nat nine → 9時に",
+  "answer_text": "💡 正解は A. on\n\nMonday morningのような曜日を含む表現にはonを使います。\n\n📝 Let's meet on Monday morning.\n「月曜日の朝に会いましょう。」\n\n🔑 on＝曜日・日付 / at＝時刻",
   "publish_at": "2026-08-26T15:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

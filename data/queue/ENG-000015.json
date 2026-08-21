@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一度考えてみて。",
   "question_image": "assets/question_images/ENG-000015-question.png",
-  "answer_text": "💡 正解は A. by\n\nby train → 電車で\nwith a friend → 友達と",
+  "answer_text": "💡 正解は A. by\n\n交通手段を表すときは、乗り物の前にbyを使います。\n\n📝 I go to work by train.\n「私は電車で仕事へ行きます。」\n\n🔑 by＋乗り物＝その交通手段で",
   "publish_at": "2026-08-21T15:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

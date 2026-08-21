@@ -29,12 +29,15 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         self.assertEqual(len({queue["content_id"] for queue in self.queues}), 49)
         self.assertTrue(all(queue["platform"] == "threads" for queue in self.queues))
         posted = [queue for queue in self.queues if queue["status"] == "posted"]
-        self.assertEqual([queue["content_id"] for queue in posted], ["ENG-000009"])
-        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 48)
+        self.assertEqual([queue["content_id"] for queue in posted],
+                         ["ENG-000009", "ENG-000012", "ENG-000013"])
+        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 46)
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
         self.assertTrue(all(queue["parent_status"] == queue["answer_status"] == "pending"
-                            for queue in quizzes if queue["content_id"] != "ENG-000009"))
-        self.assertEqual((posted[0]["parent_status"], posted[0]["answer_status"]), ("posted", "posted"))
+                            for queue in quizzes if queue["content_id"] not in
+                            {"ENG-000009", "ENG-000012", "ENG-000013"}))
+        self.assertTrue(all((queue["parent_status"], queue["answer_status"]) == ("posted", "posted")
+                            for queue in posted))
 
     def test_all_shared_master_fields_and_slots_match(self):
         quiz_fields = ("content_id", "question", "choices", "best_answer", "publish_at")

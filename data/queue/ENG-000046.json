@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "こう聞かれたら何て返す？",
   "question_image": "assets/question_images/ENG-000046-question.png",
-  "answer_text": "💡 正解は A. No, it's free.\n\n空席なら No, it's free. と伝えられます。",
+  "answer_text": "💡 正解は A. No, it's free.\n\n席が使用中か聞かれたとき、空いていることを伝える返答です。\n\n🗣️ No, it's free.\n「いいえ、空いています。」",
   "publish_at": "2026-08-26T18:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

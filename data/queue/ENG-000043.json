@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "パッと答えられる？",
   "question_image": "assets/question_images/ENG-000043-question.png",
-  "answer_text": "💡 正解は A. since\n\nsince 2020 → 2020年から\nfor five years → 5年間",
+  "answer_text": "💡 正解は A. since\n\n2020は始まった時点なので、sinceを使います。\n\n📝 I've known her since 2020.\n「私は2020年から彼女を知っています。」\n\n🔑 since＝開始時点 / for＝期間",
   "publish_at": "2026-08-26T09:30:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

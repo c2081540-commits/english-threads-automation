@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一度考えてみて。",
   "question_image": "assets/question_images/ENG-000003-question.png",
-  "answer_text": "💡 正解は B. for\n\nforは期間、sinceは開始時点を表します。",
+  "answer_text": "💡 正解は B. for\n\nfive yearsは続いている期間なので、forを使います。\n\n📝 I've lived here for five years.\n「私はここに5年間住んでいます。」\n\n🔑 for＝期間 / since＝開始時点",
   "publish_at": "2026-08-22T09:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

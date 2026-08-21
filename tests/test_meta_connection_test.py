@@ -95,9 +95,11 @@ class ThreadsConnectionTestTests(unittest.TestCase):
                       json.loads((REPO_ROOT / "data" / "queue" / "final-schedule-2026-08-20.json").read_text())["items"]}]
         self.assertEqual(len(production), 49)
         posted = [item for item in production if item["status"] == "posted"]
-        self.assertEqual([item["content_id"] for item in posted], ["ENG-000009"])
+        self.assertEqual(sorted(item["content_id"] for item in posted),
+                         ["ENG-000009", "ENG-000012", "ENG-000013"])
         self.assertTrue(all(item["status"] == "pending" and "remote_post_id" not in item
-                            for item in production if item["content_id"] != "ENG-000009"))
+                            for item in production if item["content_id"] not in
+                            {"ENG-000009", "ENG-000012", "ENG-000013"}))
 
 
 if __name__ == "__main__":

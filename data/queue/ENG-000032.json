@@ -4,7 +4,7 @@
   "content_type": "quiz",
   "parent_text": "一番合う単語は？",
   "question_image": "assets/question_images/ENG-000032-question.png",
-  "answer_text": "💡 正解は A. climbing\n\nclimb は「登る」です。",
+  "answer_text": "💡 正解は A. climbing\n\n画像では、階段を上へ進んでいます。\n\n📝 He is climbing the stairs.\n「彼は階段を上っています。」\n\n🔑 climb＝上る",
   "publish_at": "2026-08-24T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",

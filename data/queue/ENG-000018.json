@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000018-question.png",
   "answer_text": "💡 正解は A. live\n\n主語がTheyなので、動詞はそのままliveを使います。\n\n📝 They live in Tokyo.\n「彼らは東京に住んでいます。」\n\n🔑 I / you / we / they → 動詞はそのまま",
   "publish_at": "2026-08-22T07:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L1"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18091924412114368",
+  "difficulty_level": "L1",
+  "remote_reply_id": "17983788570111119",
+  "remote_post_id": "18091924412114368",
+  "posted_at": "2026-08-22T07:00:35.138219+09:00",
+  "error": null
 }

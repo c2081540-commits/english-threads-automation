@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000024-question.png",
   "answer_text": "💡 正解は B. heavier\n\nthanがあるので、2つを比べるheavierを使います。\n\n📝 This bag is heavier than mine.\n「このバッグは私のものより重いです。」\n\n🔑 heavy → heavier",
   "publish_at": "2026-08-23T07:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L2"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17953737648016779",
+  "difficulty_level": "L2",
+  "remote_reply_id": "18079364873694055",
+  "remote_post_id": "17953737648016779",
+  "posted_at": "2026-08-23T07:00:34.546599+09:00",
+  "error": null
 }

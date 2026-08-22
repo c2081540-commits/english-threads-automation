@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000019-question.png",
   "answer_text": "💡 正解は A. just\n\nhave just finishedで「ちょうど終えたところ」を表します。\n\n📝 I have just finished lunch.\n「私はちょうど昼食を終えたところです。」\n\n🔑 have just finished＝ちょうど終えた",
   "publish_at": "2026-08-22T09:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L2"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17898754623568584",
+  "difficulty_level": "L2",
+  "remote_reply_id": "18642988630002040",
+  "remote_post_id": "17898754623568584",
+  "posted_at": "2026-08-22T09:30:35.936743+09:00",
+  "error": null
 }

@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000023-question.png",
   "answer_text": "💡 正解は A. about\n\nbe about to ...で「今にも〜する」を表します。\n\n🗣️ She is about to close the window.\n「彼女は今、窓を閉めようとしています。」\n\n🔑 be about to＋動詞＝今にも〜する",
   "publish_at": "2026-08-22T20:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L2"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18093591932106995",
+  "difficulty_level": "L2",
+  "remote_reply_id": "18053030291563330",
+  "remote_post_id": "18093591932106995",
+  "posted_at": "2026-08-22T20:30:36.026019+09:00",
+  "error": null
 }

@@ -89,12 +89,17 @@ class ContentPipelineTests(unittest.TestCase):
     def test_scripts_are_cwd_independent(self):
         build_script = REPO_ROOT / "scripts" / "build_queue.py"
         dry_run_script = REPO_ROOT / "scripts" / "dry_run.py"
-        built = subprocess.run([sys.executable, str(build_script), "quiz", "ENG-000003"],
-                               cwd="/private/tmp", check=True, capture_output=True, text=True)
-        self.assertIn("ENG-000003.json", built.stdout)
-        dry_run = subprocess.run([sys.executable, str(dry_run_script), "ENG-000003"],
-                                 cwd="/private/tmp", check=True, capture_output=True, text=True)
-        self.assertIn("💡 正解は B. for", dry_run.stdout)
+        queue_path = REPO_ROOT / "data" / "queue" / "ENG-000003.json"
+        original = queue_path.read_bytes()
+        try:
+            built = subprocess.run([sys.executable, str(build_script), "quiz", "ENG-000003"],
+                                   cwd="/private/tmp", check=True, capture_output=True, text=True)
+            self.assertIn("ENG-000003.json", built.stdout)
+            dry_run = subprocess.run([sys.executable, str(dry_run_script), "ENG-000003"],
+                                     cwd="/private/tmp", check=True, capture_output=True, text=True)
+            self.assertIn("💡 正解は B. for", dry_run.stdout)
+        finally:
+            queue_path.write_bytes(original)
 
 
 if __name__ == "__main__":

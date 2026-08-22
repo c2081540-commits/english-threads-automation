@@ -22,7 +22,7 @@ class ParentHookQualityTests(unittest.TestCase):
         for number in range(6, 48):
             content_id = f"ENG-{number:06d}"
             queue = json.loads((REPO_ROOT / "data" / "queue" / f"{content_id}.json").read_text())
-            if queue["status"] == "posted":
+            if queue["status"] != "pending":
                 continue
             master = json.loads((REPO_ROOT / "data" / "master" / "quiz" /
                                  f"{content_id}.json").read_text())
@@ -33,7 +33,7 @@ class ParentHookQualityTests(unittest.TestCase):
                                 "thread-hook-audit.json").read_text())["items"]
 
     def test_all_unposted_hooks_pass_the_batch_quality_gate(self):
-        self.assertEqual(len(self.items), 36)
+        self.assertEqual(len(self.items), 32)
         validate_hook_sequence(self.items)
 
     def test_audit_counts_and_instruction_hooks_are_revised(self):

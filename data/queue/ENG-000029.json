@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000029-question.png",
   "answer_text": "💡 正解は D. worry\n\nDon'tの後ろでは、動詞をそのままの形で使います。\n\n🗣️ Don't worry about it.\n「気にしないでください。」\n\n🔑 Don't＋動詞＝〜しないで",
   "publish_at": "2026-08-23T20:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L3"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18086076494229615",
+  "difficulty_level": "L3",
+  "remote_reply_id": "18092445563540599",
+  "remote_post_id": "18086076494229615",
+  "posted_at": "2026-08-23T20:30:31.037853+09:00",
+  "error": null
 }

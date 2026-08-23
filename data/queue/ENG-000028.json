@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000028-question.png",
   "answer_text": "💡 正解は B. at\n\n3 p.m.のような具体的な時刻にはatを使います。\n\n📝 I have a meeting at 3 p.m.\n「午後3時に会議があります。」\n\n🔑 at＝時刻 / on＝曜日・日付",
   "publish_at": "2026-08-23T18:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L2"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18114538195767153",
+  "difficulty_level": "L2",
+  "remote_reply_id": "18115077143064584",
+  "remote_post_id": "18114538195767153",
+  "posted_at": "2026-08-23T18:00:33.218980+09:00",
+  "error": null
 }

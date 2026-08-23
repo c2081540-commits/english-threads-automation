@@ -6,10 +6,14 @@
   "question_image": "assets/question_images/ENG-000027-question.png",
   "answer_text": "💡 正解は A. too many\n\ncarsは数えられるので、too manyを使います。\n\n📝 There are too many cars on the road.\n「道路には車が多すぎます。」\n\n🔑 too many＋数えられる名詞",
   "publish_at": "2026-08-23T15:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
-  "difficulty_level": "L3"
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18133084225626179",
+  "difficulty_level": "L3",
+  "remote_reply_id": "18106428923165454",
+  "remote_post_id": "18133084225626179",
+  "posted_at": "2026-08-23T15:00:35.518552+09:00",
+  "error": null
 }

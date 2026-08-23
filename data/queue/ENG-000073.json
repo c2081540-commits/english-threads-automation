@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000073",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "似た基本語、使い分けられる？",
+  "question_image": "assets/question_images/ENG-000073-question.png",
+  "answer_text": "✅ 正解は A. work\n\nwork＝仕事・作業（不可算）\njob＝職・一件の仕事\ncareer＝職業人生\ntask＝個別の作業\n\n正解だけでなく、似た語の役割を文型ごとに確認します。",
+  "publish_at": "2026-08-28T09:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "difference",
+  "quiz_format": "difference",
+  "correct_position": "A"
+}

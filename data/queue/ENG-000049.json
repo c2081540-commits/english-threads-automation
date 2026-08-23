@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000049",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "正しくない英文が1つあります。\nどれか見つけられる？",
+  "question_image": "assets/question_images/ENG-000049-question.png",
+  "answer_text": "✅ 間違いは2番です。\n\n1 ○ I need some advice.\nadviceは通常数えない名詞で、some adviceは自然です。\n2 × She gave me some information.\ninformationには通常anを付けません。\n3 ○ We bought two chairs.\nchairは数えられるため、two chairsが自然です。\n4 ○ There is some water.\nwaterは通常数えない名詞で、some waterが自然です。",
+  "publish_at": "2026-08-26T09:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

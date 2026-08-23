@@ -11,5 +11,8 @@
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null,
-  "difficulty_level": "L2"
+  "difficulty_level": "L2",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "B"
 }

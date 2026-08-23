@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000062",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "動く方向まで見て答えられる？",
+  "question_image": "assets/question_images/ENG-000062-question.png",
+  "answer_text": "💡 男性はバスに乗るところ？降りるところ？\n\n✅ 正解は D. on\n\n乗り物に乗る動作はget on、降りる動作はget offです。\n\n📝 He is getting on the bus.\n「彼はバスに乗るところです。」",
+  "publish_at": "2026-09-01T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "D"
+}

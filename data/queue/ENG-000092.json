@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000092",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "袋の数を英語で答えよう。",
+  "question_image": "assets/question_images/ENG-000092-question.png",
+  "answer_text": "💡 男性が持っている袋はいくつ？\n\n✅ 正解は B. two\n\ntwo grocery bagsで「2つの買い物袋」です。\n\n📝 He is holding two grocery bags.\n「彼は買い物袋を2つ持っています。」",
+  "publish_at": "2026-09-01T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "B"
+}

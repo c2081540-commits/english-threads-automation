@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000087",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "一覧を確認して、最後の空欄に挑戦。",
+  "question_image": "assets/question_images/ENG-000087-question.png",
+  "answer_text": "✅ 正解は B. save\n\nattach a file＝ファイルを添付する\nforward an email＝メールを転送する\nreply to a message＝メッセージに返信する\ndelete a message＝メッセージを削除する\nsave a draft for later＝下書きを後で使えるよう保存する\n\n英語表現と日本語をセットで確認します。",
+  "publish_at": "2026-08-27T20:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "save_list",
+  "quiz_format": "save_list",
+  "correct_position": "B"
+}

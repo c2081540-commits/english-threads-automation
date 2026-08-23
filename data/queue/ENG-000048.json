@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000048",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "4つの英文、間違いはいくつ？\n全部チェックしてみよう。",
+  "question_image": "assets/question_images/ENG-000048-question.png",
+  "answer_text": "✅ 間違いは2個です。\n\n1 × I enjoy cooking on weekends.\nenjoyの直後に動作を置くときは-ing形を使います。\n2 ○ She decided to leave early.\ndecideの後ろにはto不定詞を置けます。\n3 ○ We finished cleaning the room.\nfinishの直後に動作を置くときは-ing形を使います。\n4 × He suggested taking a taxi.\nsuggestの直後に動作を置くときは-ing形を使います。",
+  "publish_at": "2026-09-02T09:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

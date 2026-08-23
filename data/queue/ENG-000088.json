@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000088",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "一覧を確認して、最後の空欄に挑戦。",
+  "question_image": "assets/question_images/ENG-000088-question.png",
+  "answer_text": "✅ 正解は B. to\n\nreason for＝～の理由\nsolution to＝～の解決策\nincrease in＝～の増加\nneed for＝～の必要性\naccess to＝～へのアクセス\n\n英語表現と日本語をセットで確認します。",
+  "publish_at": "2026-08-29T20:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "save_list",
+  "quiz_format": "save_list",
+  "correct_position": "B"
+}

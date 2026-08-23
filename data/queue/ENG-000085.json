@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000085",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "4つの英文を、1文ずつ判定してみよう。",
+  "question_image": "assets/question_images/ENG-000085-question.png",
+  "answer_text": "✅ 間違いは1個です。\n\n1 ○ They let me leave early.\nletの後ろは人＋動詞の原形です。\n2 × She made me wait.\n能動態のmakeの後ろは人＋動詞の原形です。\n3 ○ He helped me carry the bags.\nhelpの後ろではtoなしの原形を使えます。\n4 ○ I want you to be careful.\nwantの後ろは人＋to不定詞です。",
+  "publish_at": "2026-08-29T18:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000086",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "4つの英文を、1文ずつ判定してみよう。",
+  "question_image": "assets/question_images/ENG-000086-question.png",
+  "answer_text": "✅ 間違いは1個です。\n\n1 ○ This soup tastes good.\ntasteの後ろに状態を表す形容詞を置けます。\n2 × I feel happy today.\n気分の状態はfeel＋形容詞で表します。\n3 ○ The test was easy.\nbe動詞の後ろのeasyが状態を説明します。\n4 ○ She looks tired.\nlook＋形容詞で見た様子を表します。",
+  "publish_at": "2026-08-31T20:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

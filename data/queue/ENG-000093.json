@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000093",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "道具と手元を見て答えよう。",
+  "question_image": "assets/question_images/ENG-000093-question.png",
+  "answer_text": "💡 男性は椅子に何をしている？\n\n✅ 正解は C. repairing\n\n金具をドライバーで留めているので、repairingが合います。\n\n📝 He is repairing the chair.\n「彼はその椅子を修理しています。」",
+  "publish_at": "2026-09-02T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "C"
+}

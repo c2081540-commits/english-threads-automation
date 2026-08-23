@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000052",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "decision、mistake、progress。\n共通する動詞は？",
+  "question_image": "assets/question_images/ENG-000052-question.png",
+  "answer_text": "✅ 正解は B. make\n\nmake a decision\nmake a mistake\nmake progress\nmake an effort\n\n例の共通点をまとめて確認しましょう。",
+  "publish_at": "2026-08-25T20:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "pattern",
+  "quiz_format": "pattern",
+  "correct_position": "B"
+}

@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000090",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "グラスの「中に」注ぐならどっち？",
+  "question_image": "assets/question_images/ENG-000090-question.png",
+  "answer_text": "💡 グラスの「中に」注ぐならどっち？\n\n✅ 正解は B. into\n\ninto = 中へ入る方向\nonto = 表面の上へ移る方向\n\n📝 She is pouring water into a glass.\n「彼女はグラスに水を注いでいます。」",
+  "publish_at": "2026-08-30T07:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "B"
+}

@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000084",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "4つの英文を、1文ずつ判定してみよう。",
+  "question_image": "assets/question_images/ENG-000084-question.png",
+  "answer_text": "✅ 間違いは1個です。\n\n1 ○ I arrived at the station.\n駅のような地点にはatを使います。\n2 × She went home early.\nhomeの前には通常toを置きません。\n3 ○ We had lunch at noon.\nnoonにはatを使います。\n4 ○ He is at work now.\nat workで「仕事中」です。",
+  "publish_at": "2026-08-28T20:30:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

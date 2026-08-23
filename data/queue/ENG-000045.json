@@ -5,11 +5,14 @@
   "parent_text": "実際の予定ならどう言う？",
   "question_image": "assets/question_images/ENG-000045-question.png",
   "answer_text": "💡 正解は A. on\n\nMonday morningのような曜日を含む表現にはonを使います。\n\n📝 Let's meet on Monday morning.\n「月曜日の朝に会いましょう。」\n\n🔑 on＝曜日・日付 / at＝時刻",
-  "publish_at": "2026-08-26T15:00:00+09:00",
+  "publish_at": "2026-08-29T15:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null,
-  "difficulty_level": "L3"
+  "difficulty_level": "L3",
+  "format": "text",
+  "quiz_format": "text",
+  "correct_position": "A"
 }

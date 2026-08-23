@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000071",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "音量を下げる時の動詞は？",
+  "question_image": "assets/question_images/ENG-000071-question.png",
+  "answer_text": "💡 volumeと一緒に使う動詞は？\n\n✅ 正解は A. turn\n\nturn the volume downで「音量を下げる」です。\n\n📝 Could you turn the volume down?\n「音量を下げてもらえますか？」",
+  "publish_at": "2026-09-02T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "text",
+  "quiz_format": "text",
+  "correct_position": "A"
+}

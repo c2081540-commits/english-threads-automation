@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000063",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "位置関係を英語で言える？",
+  "question_image": "assets/question_images/ENG-000063-question.png",
+  "answer_text": "💡 本とパソコンの位置関係は？\n\n✅ 正解は D. next to\n\nnext toは「〜のすぐ隣に」です。\n\n📝 The books are next to the laptop.\n「本はノートパソコンの隣にあります。」",
+  "publish_at": "2026-09-02T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "D"
+}

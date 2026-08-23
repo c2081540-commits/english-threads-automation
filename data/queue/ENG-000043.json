@@ -5,11 +5,14 @@
   "parent_text": "期間表現、迷わずいける？",
   "question_image": "assets/question_images/ENG-000043-question.png",
   "answer_text": "💡 正解は A. since\n\n2020は始まった時点なので、sinceを使います。\n\n📝 I've known her since 2020.\n「私は2020年から彼女を知っています。」\n\n🔑 since＝開始時点 / for＝期間",
-  "publish_at": "2026-08-26T09:30:00+09:00",
+  "publish_at": "2026-08-29T07:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null,
-  "difficulty_level": "L2"
+  "difficulty_level": "L2",
+  "format": "text",
+  "quiz_format": "text",
+  "correct_position": "A"
 }

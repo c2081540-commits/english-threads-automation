@@ -2,14 +2,17 @@
   "content_id": "ENG-000041",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "職場の一場面、自然な形は？",
+  "parent_text": "女性は何を手伝おうとしている？",
   "question_image": "assets/question_images/ENG-000041-question.png",
-  "answer_text": "💡 正解は D. to help\n\noffer to helpで「手伝うと申し出る」という意味になります。\n\n🗣️ She offers to help him with the boxes.\n「彼女は箱を運ぶのを手伝うと申し出ています。」\n\n🔑 offer to＋動詞＝〜すると申し出る",
-  "publish_at": "2026-08-25T20:30:00+09:00",
+  "answer_text": "💡 女性が手を伸ばしている物に注目。\n\n✅ 正解は D. carry the boxes\n\n箱を抱えた男性へ手を伸ばしている場面です。",
+  "publish_at": "2026-08-28T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null,
-  "difficulty_level": "L2"
+  "difficulty_level": "L2",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "D"
 }

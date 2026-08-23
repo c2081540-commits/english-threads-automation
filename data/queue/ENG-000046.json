@@ -2,14 +2,17 @@
   "content_id": "ENG-000046",
   "platform": "threads",
   "content_type": "quiz",
-  "parent_text": "空席を前に、自然な一言は？",
+  "parent_text": "男性が示しているのは何？",
   "question_image": "assets/question_images/ENG-000046-question.png",
-  "answer_text": "💡 正解は B. sitting\n\n今そこに座っている人がいるか尋ねるので、is＋sittingです。\n\n🗣️ Is anyone sitting here?\n「ここに誰か座っていますか？」\n\n🔑 be動詞＋-ing＝今していること",
-  "publish_at": "2026-08-26T18:00:00+09:00",
+  "answer_text": "💡 男性の手の先を見てみよう。\n\n✅ 正解は B. A free seat\n\n隣の空いている席を示しています。",
+  "publish_at": "2026-08-29T12:00:00+09:00",
   "status": "pending",
   "execution_eligibility": "scheduled",
   "parent_status": "pending",
   "answer_status": "pending",
   "parent_post_id": null,
-  "difficulty_level": "L3"
+  "difficulty_level": "L3",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "B"
 }

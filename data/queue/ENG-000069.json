@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000069",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "送った直後をどう言う？",
+  "question_image": "assets/question_images/ENG-000069-question.png",
+  "answer_text": "💡 haveの後ろの形に注目。\n\n✅ 正解は A. sent\n\n現在完了はhave＋過去分詞です。sendの過去分詞はsentです。\n\n📝 I've just sent the email.\n「ちょうどメールを送りました。」",
+  "publish_at": "2026-09-01T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "text",
+  "quiz_format": "text",
+  "correct_position": "A"
+}

@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000067",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "到着したら知らせて、なら？",
+  "question_image": "assets/question_images/ENG-000067-question.png",
+  "answer_text": "💡 到着した時点を表します。\n\n✅ 正解は A. when\n\nwhenは「〜するとき」。arriveのような出来事の時点を示せます。\n\n📝 Call me when you get home.\n「家に着いたら電話して。」",
+  "publish_at": "2026-08-31T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L2",
+  "format": "text",
+  "quiz_format": "text",
+  "correct_position": "A"
+}

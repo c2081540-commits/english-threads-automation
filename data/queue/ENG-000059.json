@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000059",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "borrowとlend、相手に頼むならどっち？",
+  "question_image": "assets/question_images/ENG-000059-question.png",
+  "answer_text": "✅ 正解は D. lend\n\nborrow＝人から借りる\nlet＝人に～させる（let me use）\nlend＝人に貸す\nowe＝返す義務がある・恩がある\n\n似た語も文型ごとに確認しましょう。",
+  "publish_at": "2026-08-26T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "difference",
+  "quiz_format": "difference",
+  "correct_position": "D"
+}

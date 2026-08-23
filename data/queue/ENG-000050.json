@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000050",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "前置詞を足しすぎている英文は？\n4つ全部を判定してみよう。",
+  "question_image": "assets/question_images/ENG-000050-question.png",
+  "answer_text": "✅ 間違いは2個です。\n\n1 ○ I explained the plan to him.\n説明する内容の後ろにto＋相手を置く自然な形です。\n2 × She discussed the issue.\ndiscussの直後には話題を置き、aboutは付けません。\n3 × We entered the room.\nenterの直後には場所を置き、toは付けません。\n4 ○ He replied to my message.\nreplyは返答の対象をtoの後ろに置けます。",
+  "publish_at": "2026-08-24T15:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "error_hunt",
+  "quiz_format": "error_hunt",
+  "correct_position": null
+}

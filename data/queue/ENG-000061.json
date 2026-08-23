@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000061",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "写真を見て、どっち？",
+  "question_image": "assets/question_images/ENG-000061-question.png",
+  "answer_text": "💡 カップの中に、どのくらい残っている？\n\n✅ 正解は A. empty\n\nalmost emptyは「ほとんど空」です。\n\n📝 The cup is almost empty.\n「カップはほとんど空です。」",
+  "publish_at": "2026-08-31T12:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L1",
+  "format": "visual",
+  "quiz_format": "visual",
+  "correct_position": "A"
+}

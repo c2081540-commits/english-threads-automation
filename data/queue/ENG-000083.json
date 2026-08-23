@@ -1,0 +1,18 @@
+{
+  "content_id": "ENG-000083",
+  "platform": "threads",
+  "content_type": "quiz",
+  "parent_text": "例の並びから、最後の形を考えてみよう。",
+  "question_image": "assets/question_images/ENG-000083-question.png",
+  "answer_text": "✅ 正解は A. uncertain\n\nhappy → unhappy\nfair → unfair\nusual → unusual\ncertain → uncertain\n\n例の共通点をまとめて確認しましょう。",
+  "publish_at": "2026-09-01T18:00:00+09:00",
+  "status": "pending",
+  "execution_eligibility": "scheduled",
+  "parent_status": "pending",
+  "answer_status": "pending",
+  "parent_post_id": null,
+  "difficulty_level": "L3",
+  "format": "pattern",
+  "quiz_format": "pattern",
+  "correct_position": "A"
+}

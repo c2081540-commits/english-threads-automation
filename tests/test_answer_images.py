@@ -1,4 +1,5 @@
 import json
+import struct
 import sys
 import tempfile
 import unittest
@@ -16,9 +17,12 @@ class AnswerImageTests(unittest.TestCase):
                                "final-schedule-2026-08-20.json").read_text())
         ids = [item["content_id"] for item in schedule["items"] if item["content_type"] == "quiz"]
         self.assertEqual(len(ids), len(set(ids)))
-        results = [validate_answer_image(content_id) for content_id in ids]
-        self.assertTrue(all(result["format"] == "PNG" and result["mode"] == "RGB" and
-                            result["size"] == [1080, 1350] for result in results))
+        for content_id in ids:
+            path=REPO_ROOT/"assets/answer_images"/f"{content_id}-answer.png"
+            header=path.read_bytes()[:26]
+            self.assertEqual(header[:8],b"\x89PNG\r\n\x1a\n")
+            self.assertEqual(struct.unpack(">II",header[16:24]),(1080,1350))
+            self.assertEqual(header[25],2)  # PNG truecolor RGB
 
     def test_missing_answer_image_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:

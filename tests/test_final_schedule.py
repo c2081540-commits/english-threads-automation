@@ -31,8 +31,10 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         posted = [queue for queue in self.queues if queue["status"] == "posted"]
         self.assertEqual([queue["content_id"] for queue in posted],
                          ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                          "ENG-000017", "ENG-100003", "ENG-000018", "ENG-000019", "ENG-000020"])
-        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 38)
+                          "ENG-000017", "ENG-100003", "ENG-000018", "ENG-000019", "ENG-000020",
+                          "ENG-000021", "ENG-000022", "ENG-000023", "ENG-100004", "ENG-000024",
+                          "ENG-000025", "ENG-000026"])
+        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 31)
         failed = [queue for queue in self.queues if queue["status"] == "failed"]
         self.assertEqual([queue["content_id"] for queue in failed], ["ENG-000016"])
         self.assertTrue(all((queue["parent_status"], queue["answer_status"]) ==
@@ -41,7 +43,9 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         self.assertTrue(all(queue["parent_status"] == queue["answer_status"] == "pending"
                             for queue in quizzes if queue["content_id"] not in
                             {"ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                             "ENG-000016", "ENG-000017", "ENG-000018", "ENG-000019", "ENG-000020"}))
+                             "ENG-000016", "ENG-000017", "ENG-000018", "ENG-000019", "ENG-000020",
+                             "ENG-000021", "ENG-000022", "ENG-000023", "ENG-000024", "ENG-000025",
+                             "ENG-000026"}))
         self.assertTrue(all((queue["parent_status"], queue["answer_status"]) == ("posted", "posted")
                             for queue in posted if queue["content_type"] == "quiz"))
 

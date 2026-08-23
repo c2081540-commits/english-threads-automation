@@ -6,9 +6,9 @@
   "seasonal": false,
   "question": "Which one means '休憩する'?",
   "choices": [
-    "take a break",
     "make a break",
     "do a break",
+    "take a break",
     "get a breaking"
   ],
   "answer_type": "single",
@@ -37,7 +37,7 @@
   "instagram_caption": "今日の1問。答えは2枚目へ。",
   "instagram_hashtags": [],
   "threads_parent_text": "仕事中にも使う定番表現。",
-  "threads_answer_text": "💡 正解は A. take a break\n\ntake a breakで「休憩する」という意味になります。\n\n🗣️ Let's take a break.\n「休憩しましょう。」\n\n🔑 take a break＝休憩する",
+  "threads_answer_text": "💡 正解は C. take a break\n\ntake a breakで「休憩する」という意味になります。\n\n🗣️ Let's take a break.\n「休憩しましょう。」\n\n🔑 take a break＝休憩する",
   "publish_at": "2026-08-26T20:30:00+09:00",
   "question_guide_ja": "「休憩する」の意味になるのはどれ？",
   "question_role": "meta_instruction",

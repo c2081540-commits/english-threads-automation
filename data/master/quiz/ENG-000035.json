@@ -6,9 +6,9 @@
   "seasonal": false,
   "question": "Which sentence is correct?",
   "choices": [
-    "He plays tennis.",
     "He play tennis.",
     "He playing tennis.",
+    "He plays tennis.",
     "He is play tennis."
   ],
   "answer_type": "single",
@@ -37,7 +37,7 @@
   "instagram_caption": "今日の1問。答えは2枚目へ。",
   "instagram_hashtags": [],
   "threads_parent_text": "正しそうな英文、見抜ける？",
-  "threads_answer_text": "💡 正解は A. He plays tennis.\n\n主語がHeなので、playにsを付けた文が正しい形です。\n\n📝 He plays tennis.\n「彼はテニスをします。」\n\n🔑 he / she → 動詞にs",
+  "threads_answer_text": "💡 正解は C. He plays tennis.\n\n主語がHeなので、playにsを付けた文が正しい形です。\n\n📝 He plays tennis.\n「彼はテニスをします。」\n\n🔑 he / she → 動詞にs",
   "publish_at": "2026-08-24T20:30:00+09:00",
   "question_guide_ja": "正しい英文はどれ？",
   "question_role": "meta_instruction",

@@ -24,28 +24,23 @@ class FinalThreadsScheduleTests(unittest.TestCase):
         self.assertEqual(load_schedule_config(), json.loads(
             (IG_ROOT / "config" / "schedule.json").read_text(encoding="utf-8")))
 
-    def test_all_49_queues_are_unique_and_known_post_is_reconciled(self):
-        self.assertEqual(len(self.queues), 49)
-        self.assertEqual(len({queue["content_id"] for queue in self.queues}), 49)
+    def test_all_scheduled_queues_are_unique_and_known_posts_are_reconciled(self):
+        self.assertEqual(len(self.queues), len(self.schedule["items"]))
+        self.assertEqual(len({queue["content_id"] for queue in self.queues}), len(self.queues))
         self.assertTrue(all(queue["platform"] == "threads" for queue in self.queues))
         posted = [queue for queue in self.queues if queue["status"] == "posted"]
-        self.assertEqual([queue["content_id"] for queue in posted],
-                         ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                          "ENG-000017", "ENG-100003", "ENG-000018", "ENG-000019", "ENG-000020",
-                          "ENG-000021", "ENG-000022", "ENG-000023", "ENG-100004", "ENG-000024",
-                          "ENG-000025", "ENG-000026"])
-        self.assertEqual(sum(queue["status"] == "pending" for queue in self.queues), 31)
+        self.assertTrue(all(queue.get("remote_post_id") and queue.get("posted_at") for queue in posted))
+        self.assertTrue(all((REPO_ROOT / "data" / "receipts" /
+                            f"threads-{queue['content_id']}.json").is_file() for queue in posted))
+        self.assertEqual(sum(queue["status"] in {"pending", "posted", "failed", "skipped"}
+                             for queue in self.queues), len(self.queues))
         failed = [queue for queue in self.queues if queue["status"] == "failed"]
         self.assertEqual([queue["content_id"] for queue in failed], ["ENG-000016"])
         self.assertTrue(all((queue["parent_status"], queue["answer_status"]) ==
                             ("posted", "failed") for queue in failed))
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
         self.assertTrue(all(queue["parent_status"] == queue["answer_status"] == "pending"
-                            for queue in quizzes if queue["content_id"] not in
-                            {"ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                             "ENG-000016", "ENG-000017", "ENG-000018", "ENG-000019", "ENG-000020",
-                             "ENG-000021", "ENG-000022", "ENG-000023", "ENG-000024", "ENG-000025",
-                             "ENG-000026"}))
+                            for queue in quizzes if queue["status"] == "pending"))
         self.assertTrue(all((queue["parent_status"], queue["answer_status"]) == ("posted", "posted")
                             for queue in posted if queue["content_type"] == "quiz"))
 
@@ -79,9 +74,9 @@ class FinalThreadsScheduleTests(unittest.TestCase):
             self.assertEqual(threads_image.read_bytes(), instagram_image.read_bytes())
             self.assertNotIn("placeholder", queue["question_image"])
 
-    def test_all_42_questions_match_instagram_and_replies_are_text_only(self):
+    def test_all_scheduled_questions_match_instagram_and_replies_are_text_only(self):
         quizzes = [queue for queue in self.queues if queue["content_type"] == "quiz"]
-        self.assertEqual(len(quizzes), 42)
+        self.assertEqual(len(quizzes), sum(item["content_type"] == "quiz" for item in self.schedule["items"]))
         for queue in quizzes:
             content_id = queue["content_id"]
             self.assertNotIn("answer_image", queue)

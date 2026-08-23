@@ -1,6 +1,8 @@
 import re
 from datetime import datetime
 
+from .formats import NEW_FORMATS, FormatValidationError, validate_format_master, validate_threads_reply
+
 CONTENT_ID = re.compile(r"^ENG-\d{6}$")
 ANSWER_TYPES = {"single", "best", "multiple"}
 REQUIRED = {
@@ -106,6 +108,13 @@ class ValidationError(ValueError):
 
 
 def validate(content: dict) -> None:
+    if content.get("format") in NEW_FORMATS:
+        try:
+            validate_format_master(content)
+            validate_threads_reply(content, content.get("threads_reply"))
+        except FormatValidationError as exc:
+            raise ValidationError(str(exc)) from exc
+        return
     missing = sorted(REQUIRED - content.keys())
     errors = [f"missing fields: {', '.join(missing)}"] if missing else []
     content_id = content.get("content_id")

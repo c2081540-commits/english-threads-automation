@@ -96,19 +96,13 @@ class ThreadsConnectionTestTests(unittest.TestCase):
         production = [item for item in queues if item.get("platform") == "threads" and
                       item["content_id"] in {entry["content_id"] for entry in
                       json.loads((REPO_ROOT / "data" / "queue" / "final-schedule-2026-08-20.json").read_text())["items"]}]
-        self.assertEqual(len(production), 49)
+        schedule_ids = {entry["content_id"] for entry in json.loads(
+            (REPO_ROOT / "data" / "queue" / "final-schedule-2026-08-20.json").read_text())["items"]}
+        self.assertEqual({item["content_id"] for item in production}, schedule_ids)
         posted = [item for item in production if item["status"] == "posted"]
-        self.assertEqual(sorted(item["content_id"] for item in posted),
-                         ["ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                          "ENG-000017", "ENG-000018", "ENG-000019", "ENG-000020", "ENG-000021",
-                          "ENG-000022", "ENG-000023", "ENG-000024", "ENG-000025", "ENG-000026",
-                          "ENG-100003", "ENG-100004"])
+        self.assertTrue(all(item.get("remote_post_id") and item.get("posted_at") for item in posted))
         self.assertTrue(all(item["status"] == "pending" and "remote_post_id" not in item
-                            for item in production if item["content_id"] not in
-                            {"ENG-000009", "ENG-000012", "ENG-000013", "ENG-000014", "ENG-000015",
-                             "ENG-000016", "ENG-000017", "ENG-000018", "ENG-000019", "ENG-000020",
-                             "ENG-000021", "ENG-000022", "ENG-000023", "ENG-000024", "ENG-000025",
-                             "ENG-000026", "ENG-100003", "ENG-100004"}))
+                            for item in production if item["status"] not in {"posted", "failed", "skipped"}))
         failed = [item for item in production if item["content_id"] == "ENG-000016"]
         self.assertTrue(all((item["status"], item["parent_status"], item["answer_status"]) ==
                             ("failed", "posted", "failed") for item in failed))

@@ -9,7 +9,7 @@ from .paths import (HOOK_CONFIG_PATH, INSTAGRAM_MASTER_DIR, NORMAL_MASTER_DIR,
                     ANSWER_IMAGE_DIR, QUESTION_IMAGE_DIR, QUIZ_MASTER_DIR, REPO_ROOT,
                     require_direct_file)
 from .validation import validate as validate_quiz_master
-from .formats import FORMATS, validate_threads_reply
+from .formats import FORMAT_REGISTRY, build_threads_reply
 
 CONTENT_ID = re.compile(r"^ENG-\d{6}$")
 FORBIDDEN_HOOKS = (
@@ -111,10 +111,10 @@ def choice_answer(content: dict) -> str:
 
 
 def build_answer_text(content: dict) -> str:
-    if content.get("format") in FORMATS:
-        text = content.get("threads_reply")
-        validate_threads_reply(content, text)
-        return text
+    if "format" in content:
+        if content.get("format") not in FORMAT_REGISTRY:
+            raise ValueError("Unsupported canonical quiz format")
+        return build_threads_reply(content)
     category = content["category"]
     if category not in {"grammar", "vocabulary", "situation"}:
         raise ValueError(f"Unsupported quiz category: {category}")

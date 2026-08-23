@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from threads_automation.formats import (CANONICAL_FORMATS, COMMON_SYNC_FIELDS,
-    FORMAT_REGISTRY, FormatDefinition, FormatValidationError, validate_format_master)
+    FORMAT_REGISTRY, FormatDefinition, FormatValidationError, adapt_dryrun_record,
+    build_threads_reply, validate_format_master)
 from threads_automation.validation import (ValidationError, validate,
     validate_current_production, validate_historical)
 
@@ -27,6 +28,9 @@ class FormatRegistryTests(unittest.TestCase):
             self.assertTrue(callable(definition.master_validator))
             self.assertEqual(definition.uses_choices, EXPECTED[key])
             self.assertTrue(definition.sync_fields)
+            self.assertTrue(callable(definition.dryrun_adapter))
+            self.assertTrue(callable(definition.reply_builder))
+            self.assertTrue(callable(definition.reply_validator))
         self.assertTrue(COMMON_SYNC_FIELDS)
 
     def test_current_and_historical_entry_points_fail_closed(self):
@@ -52,6 +56,27 @@ class FormatRegistryTests(unittest.TestCase):
         self.assertEqual(COMMON_SYNC_FIELDS,module.COMMON_SYNC_FIELDS)
         self.assertEqual({k:(v.uses_choices,v.sync_fields) for k,v in FORMAT_REGISTRY.items()},
                          {k:(v.uses_choices,v.sync_fields) for k,v in module.FORMAT_REGISTRY.items()})
+
+    def test_dummy_format_routes_without_central_code_changes(self):
+        calls=[]
+        def master(record): calls.append("master")
+        def adapter(record,item): record["dummy_value"]=item["dummy_value"]; record["threads_reply"]="yes routed"; calls.append("dryrun")
+        def builder(record): calls.append("builder"); return record["threads_reply"]
+        def reply(record,text):
+            if record["dummy_value"] not in text: raise FormatValidationError("dummy mismatch")
+            calls.append("reply")
+        definition=FormatDefinition("dummy_format",master,False,("dummy_value",),adapter,builder,reply)
+        FORMAT_REGISTRY["dummy_format"]=definition
+        try:
+            item={"content_id":"ENG-999999","difficulty":"L2","learning_point":"dummy","question":"Dummy?",
+                  "correct_answer":"yes","dummy_value":"routed"}
+            record=adapt_dryrun_record(item,"2026-08-24T07:00:00+09:00","dummy_format")
+            validate_format_master(record)
+            self.assertEqual(build_threads_reply(record),"yes routed")
+            self.assertEqual(calls,["dryrun","master","builder","reply"])
+        finally:
+            FORMAT_REGISTRY.pop("dummy_format",None)
+        self.assertNotIn("dummy_format",FORMAT_REGISTRY)
 
 
 if __name__ == "__main__": unittest.main()

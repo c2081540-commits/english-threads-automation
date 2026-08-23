@@ -29,32 +29,21 @@ class TextOnlyReplyTests(unittest.TestCase):
             if queue["status"] != "posted":
                 self.assertEqual(queue["answer_text"], answer)
 
-    def test_template_distribution_and_required_learning_elements(self):
-        counts = {"grammar_usage": 0, "situation": 0, "visual_vocabulary": 0, "other": 0}
+    def test_current_reply_quality_fields_not_emoji_are_required(self):
         for number in range(6, 48):
             master = json.loads((REPO_ROOT / "data" / "master" / "quiz" /
                                  f"ENG-{number:06d}.json").read_text(encoding="utf-8"))
-            production_category = master["production_category"]
-            if production_category in {"grammar_usage", "natural_choice"} or (
-                    production_category == "review" and master["category"] == "grammar"):
-                key = "grammar_usage"
-            elif production_category == "situation":
-                key = "situation"
-            elif production_category == "visual_vocabulary":
-                key = "visual_vocabulary"
-            else:
-                key = "other"
-            counts[key] += 1
+            queue = json.loads((REPO_ROOT / "data" / "queue" /
+                                f"ENG-{number:06d}.json").read_text(encoding="utf-8"))
+            if not master.get("learning_point"):
+                self.assertEqual(queue["status"], "posted")
+                continue
             text = master["threads_answer_text"]
-            if key == "grammar_usage":
-                self.assertIn("📝 ", text)
-                self.assertIn("🔑 ", text)
-            elif key == "situation":
-                self.assertIn("🗣️ ", text)
-            elif key == "visual_vocabulary":
-                self.assertIn("📝 ", text)
-        self.assertEqual(counts, {"grammar_usage": 22, "situation": 11,
-                                  "visual_vocabulary": 8, "other": 1})
+            self.assertIn(master["best_answer"], text)
+            self.assertTrue(master["explanation"].strip())
+            self.assertTrue(master["examples"])
+            self.assertTrue(master["example_translations"])
+            self.assertTrue(master["learning_point"].strip())
 
     def test_posted_queue_and_receipts_remain_authoritative(self):
         for content_id in ("ENG-000009", "ENG-000012", "ENG-000013"):

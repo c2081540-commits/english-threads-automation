@@ -30,6 +30,13 @@ class ThreadsDifficultyLevelTests(unittest.TestCase):
             self.assertNotIn(queue["parent_text"], recent[-2:])
             recent.append(queue["parent_text"])
 
+    def test_eng_000034_approved_hook_is_a_situation_hook(self):
+        content_id="ENG-000034"
+        master=json.loads((REPO_ROOT/"data/master/quiz"/f"{content_id}.json").read_text())
+        queue=json.loads((REPO_ROOT/"data/queue"/f"{content_id}.json").read_text())
+        self.assertEqual(master["production_category"],"situation")
+        validate_hook_for_item(master,queue["parent_text"])
+
 
 if __name__ == "__main__":
     unittest.main()

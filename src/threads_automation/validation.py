@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from .formats import NEW_FORMATS, FormatValidationError, validate_format_master, validate_threads_reply
+from .formats import FORMATS, FormatValidationError, validate_format_master, validate_threads_reply
 
 CONTENT_ID = re.compile(r"^ENG-\d{6}$")
 ANSWER_TYPES = {"single", "best", "multiple"}
@@ -108,7 +108,7 @@ class ValidationError(ValueError):
 
 
 def validate(content: dict) -> None:
-    if content.get("format") in NEW_FORMATS:
+    if content.get("format") in FORMATS:
         try:
             validate_format_master(content)
             validate_threads_reply(content, content.get("threads_reply"))

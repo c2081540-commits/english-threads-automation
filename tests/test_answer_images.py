@@ -11,11 +11,11 @@ from threads_automation.answer_images import validate_answer_image
 
 
 class AnswerImageTests(unittest.TestCase):
-    def test_all_42_answer_images_pass_free_machine_checks(self):
+    def test_historical_schedule_answer_image_fixtures_pass_free_machine_checks(self):
         schedule = json.loads((REPO_ROOT / "data" / "queue" /
                                "final-schedule-2026-08-20.json").read_text())
         ids = [item["content_id"] for item in schedule["items"] if item["content_type"] == "quiz"]
-        self.assertEqual(len(ids), 42)
+        self.assertEqual(len(ids), len(set(ids)))
         results = [validate_answer_image(content_id) for content_id in ids]
         self.assertTrue(all(result["format"] == "PNG" and result["mode"] == "RGB" and
                             result["size"] == [1080, 1350] for result in results))

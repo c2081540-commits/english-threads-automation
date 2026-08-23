@@ -9,6 +9,8 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from threads_automation.content import (build_answer_text, choice_answer,
                                         validate_hook_guide)  # noqa: E402
+from threads_automation.formats import (FORMATS,
+                                        validate_threads_reply)  # noqa: E402
 
 
 class TextOnlyReplyTests(unittest.TestCase):
@@ -21,10 +23,13 @@ class TextOnlyReplyTests(unittest.TestCase):
                                 f"{content_id}.json").read_text(encoding="utf-8"))
             self.assertNotIn("answer_image", queue)
             answer = build_answer_text(master)
-            self.assertEqual(answer.splitlines()[0], f"💡 正解は {choice_answer(master)}")
-            self.assertLessEqual(len(answer), 320)
-            self.assertLessEqual(len([line for line in answer.splitlines() if line.strip()]), 5)
-            self.assertIn("「", answer)
+            if master.get("format") in FORMATS:
+                validate_threads_reply(master, answer)
+            else:
+                self.assertEqual(answer.count(f"正解は {choice_answer(master)}"), 1)
+                self.assertLessEqual(len(answer), 320)
+                self.assertLessEqual(len([line for line in answer.splitlines() if line.strip()]), 5)
+                self.assertIn("「", answer)
             self.assertNotIn(master["question"], answer)
             if queue["status"] != "posted":
                 self.assertEqual(queue["answer_text"], answer)

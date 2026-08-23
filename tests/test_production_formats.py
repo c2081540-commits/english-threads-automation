@@ -29,6 +29,41 @@ class ThreadsProductionFormatTests(unittest.TestCase):
                 "completed_sentence":"Test right now."})
             validate_format_master(x); validate_threads_reply(x,x["threads_reply"])
             with self.assertRaises(FormatValidationError): validate_threads_reply(x,"✅ 正解は A. right\n\n短い説明です。")
+
+    def test_text_visual_answer_first_and_hint_first_contracts(self):
+        base=common("visual"); base.update(choices=["wrong","right"],explanation="短い説明です。",
+            completed_sentence="Test right now.",japanese_translation="短い訳です。",
+            instagram_caption="caption",threads_parent_text="hook",visual_required=True,
+            threads_reply_explanation="短い説明です。",visual_semantic_consistency=True,
+            visual_answer_uniqueness=True,visual_only_solvable=False,visual_semantics={
+            "subject_gender":"verified","subject_count":"verified","action":"verified",
+            "direction":"verified","object":"verified","state":"verified","location":"verified",
+            "completed_sentence":"Test right now."})
+        answer_first="💡 正解は B. right\n\n短い説明です。"
+        base.update(threads_answer_text=answer_first,threads_reply=answer_first)
+        validate_format_master(base); validate_threads_reply(base,answer_first)
+
+        for content_id, hint in (("ENG-000041", "女性が手を伸ばしている物に注目。"),
+                                 ("ENG-000046", "男性の手の先を見てみよう。")):
+            item=dict(base); item.update(content_id=content_id,hint=hint)
+            reply=f"💡 {hint}\n\n✅ 正解は B. right\n\n短い説明です。"
+            item.update(threads_answer_text=reply,threads_reply=reply)
+            validate_format_master(item); validate_threads_reply(item,reply)
+
+    def test_text_visual_reply_rejects_missing_or_wrong_answer_and_missing_learning_point(self):
+        x=common("text"); x.update(choices=["wrong","right"],explanation="短い説明です。",
+            completed_sentence="Test right now.",japanese_translation="短い訳です。",
+            instagram_caption="caption",threads_parent_text="hook",visual_required=False,
+            question_guide_ja="入るのはどっち？",threads_reply_explanation="短い説明です。")
+        valid="💡 正解は B. right\n\n短い説明です。"
+        x.update(threads_answer_text=valid,threads_reply=valid)
+        for invalid in ("短い説明です。", "💡 正解は A. right\n\n短い説明です。",
+                        "💡 正解は B. wrong\n\n短い説明です。"):
+            with self.assertRaises(FormatValidationError):
+                validate_threads_reply(x,invalid)
+        missing=dict(x); missing["learning_point"]=""
+        with self.assertRaises(FormatValidationError):
+            validate_format_master(missing)
     def test_error_hunt_reply(self):
         x=common("error_hunt"); x.update(question="4つの英文、何個間違ってる？",correct_answer="1個",answer_mode="count")
         x["sentences"]=[{"sentence":s,"verdict":v,"corrected_sentence":c,"grammar_rule":"rule","reason_ja":r} for s,v,c,r in [("A.","CORRECT","A.","理由A"),("B.","INCORRECT","B fixed.","理由B"),("C.","CORRECT","C.","理由C"),("D.","CORRECT","D.","理由D")]]

@@ -176,8 +176,16 @@ def validate_threads_reply(record, text):
     fmt = record["format"]
     if fmt in {"text", "visual"}:
         letter = chr(ord("A") + record["choices"].index(answer))
-        if f"正解は {letter}. {answer}" not in text:
+        answer_marker = f"正解は {letter}. {answer}"
+        if text.count(answer_marker) != 1:
             raise FormatValidationError("reply answer letter/value mismatch")
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        answer_index = next((index for index, line in enumerate(lines)
+                             if answer_marker in line), -1)
+        if answer_index not in {0, 1}:
+            raise FormatValidationError("reply answer must be first or follow one hint")
+        if answer_index == 1 and not lines[0].startswith("💡 "):
+            raise FormatValidationError("reply preface must be one hint before the answer")
         if record["threads_reply_explanation"] not in text:
             raise FormatValidationError("reply must contain the approved explanation")
         if len(text) > 420:

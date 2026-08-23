@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000030-question.png",
   "answer_text": "💡 正解は B. is\n\na bankは1つなので、There isを使います。\n\n📝 There is a bank near here.\n「この近くに銀行があります。」\n\n🔑 1つならThere is / 複数ならThere are",
   "publish_at": "2026-08-24T07:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18074676821710871",
   "difficulty_level": "L1",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "B"
+  "correct_position": "B",
+  "remote_reply_id": "17968406745135765",
+  "remote_post_id": "18074676821710871",
+  "posted_at": "2026-08-24T07:00:33.251722+09:00",
+  "error": null
 }

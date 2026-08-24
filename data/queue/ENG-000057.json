@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000057-question.png",
   "answer_text": "✅ 正解は A. hear\n\nhear＝音が耳に入る・聞こえる\nlisten＝意識して聞く（対象の前にto）\nsound＝音がする・～のように聞こえる\nvoice＝声（名詞）／意見を口にする（動詞）\n\n似た語も文型ごとに確認しましょう。",
   "publish_at": "2026-08-24T18:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18035326046827040",
   "difficulty_level": "L2",
   "format": "difference",
   "quiz_format": "difference",
-  "correct_position": "A"
+  "correct_position": "A",
+  "remote_reply_id": "18114248695758269",
+  "remote_post_id": "18035326046827040",
+  "posted_at": "2026-08-24T18:00:37.043399+09:00",
+  "error": null
 }

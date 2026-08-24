@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000032-question.png",
   "answer_text": "💡 正解は B. up\n\n写真では階段の途中を上っているので、up the stairsです。\n\n📝 He is walking up the stairs.\n「彼は階段を上っています。」\n\n🔑 up＝上る / up to＝〜まで行く",
   "publish_at": "2026-08-24T12:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18127262854743238",
   "difficulty_level": "L2",
   "format": "visual",
   "quiz_format": "visual",
-  "correct_position": "B"
+  "correct_position": "B",
+  "remote_reply_id": "18110131997126207",
+  "remote_post_id": "18127262854743238",
+  "posted_at": "2026-08-24T12:00:37.187387+09:00",
+  "error": null
 }

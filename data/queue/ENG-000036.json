@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000036-question.png",
   "answer_text": "💡 正解は A. speak\n\ncanの後ろでは、動詞をそのままの形で使います。\n\n📝 Can you speak English?\n「英語を話せますか？」\n\n🔑 can＋動詞のそのままの形",
   "publish_at": "2026-08-25T07:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17881508931684548",
   "difficulty_level": "L1",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "A"
+  "correct_position": "A",
+  "remote_reply_id": "18024323147856731",
+  "remote_post_id": "17881508931684548",
+  "posted_at": "2026-08-25T07:00:36.689936+09:00",
+  "error": null
 }

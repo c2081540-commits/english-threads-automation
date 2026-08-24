@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000035-question.png",
   "answer_text": "💡 正解は C. He plays tennis.\n\n主語がHeなので、playにsを付けた文が正しい形です。\n\n📝 He plays tennis.\n「彼はテニスをします。」\n\n🔑 he / she → 動詞にs",
   "publish_at": "2026-08-24T20:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18113213576083709",
   "difficulty_level": "L2",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "C"
+  "correct_position": "C",
+  "remote_reply_id": "18084139382374799",
+  "remote_post_id": "18113213576083709",
+  "posted_at": "2026-08-24T20:30:39.397320+09:00",
+  "error": null
 }

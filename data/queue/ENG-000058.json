@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000058-question.png",
   "answer_text": "✅ 正解は D. tell\n\nsay＝言葉・内容を言う（say it）\ntell＝人に情報を伝える（tell me）\nspeak＝言語を話す・改まって話す\ntalk＝人と会話する\n\n似た語も文型ごとに確認しましょう。",
   "publish_at": "2026-08-25T09:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18105439286585541",
   "difficulty_level": "L2",
   "format": "difference",
   "quiz_format": "difference",
-  "correct_position": "D"
+  "correct_position": "D",
+  "remote_reply_id": "17898219723370819",
+  "remote_post_id": "18105439286585541",
+  "posted_at": "2026-08-25T09:30:35.170197+09:00",
+  "error": null
 }

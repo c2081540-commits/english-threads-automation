@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000039-question.png",
   "answer_text": "💡 正解は B. out\n\n水がボトルの中から外へ出ているので、out ofを使います。\n\n📝 Water is coming out of the bottle.\n「ボトルから水が出ています。」\n\n🔑 out of＝〜の中から外へ",
   "publish_at": "2026-08-25T15:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17898234702585250",
   "difficulty_level": "L2",
   "format": "visual",
   "quiz_format": "visual",
-  "correct_position": "B"
+  "correct_position": "B",
+  "remote_reply_id": "18104587754182770",
+  "remote_post_id": "17898234702585250",
+  "posted_at": "2026-08-25T15:00:34.346105+09:00",
+  "error": null
 }

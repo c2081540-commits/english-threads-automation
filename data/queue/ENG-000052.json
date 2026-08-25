@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000052-question.png",
   "answer_text": "✅ 正解は B. make\n\nmake a decision\nmake a mistake\nmake progress\nmake an effort\n\n例の共通点をまとめて確認しましょう。",
   "publish_at": "2026-08-25T20:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18193387294353140",
   "difficulty_level": "L2",
   "format": "pattern",
   "quiz_format": "pattern",
-  "correct_position": "B"
+  "correct_position": "B",
+  "remote_reply_id": "18047637647799341",
+  "remote_post_id": "18193387294353140",
+  "posted_at": "2026-08-25T20:30:36.576114+09:00",
+  "error": null
 }

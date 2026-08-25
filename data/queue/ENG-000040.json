@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000040-question.png",
   "answer_text": "💡 正解は C. repeat\n\nCould youの後ろでは、動詞をそのままの形で使います。\n\n🗣️ Could you repeat that?\n「もう一度言っていただけますか？」\n\n🔑 Could you＋動詞＝〜していただけますか",
   "publish_at": "2026-08-25T18:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18376273399228341",
   "difficulty_level": "L3",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "C"
+  "correct_position": "C",
+  "remote_reply_id": "18119691796902004",
+  "remote_post_id": "18376273399228341",
+  "posted_at": "2026-08-25T18:00:36.509853+09:00",
+  "error": null
 }

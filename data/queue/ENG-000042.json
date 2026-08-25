@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000042-question.png",
   "answer_text": "💡 正解は B. opens\n\nMy officeは1つで、普段の開始時刻なのでopenにsを付けます。\n\n📝 My office opens at nine.\n「私の会社は9時に始まります。」\n\n🔑 he / she / 1つのもの → 動詞にs",
   "publish_at": "2026-08-26T07:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18112496401795637",
   "difficulty_level": "L1",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "B"
+  "correct_position": "B",
+  "remote_reply_id": "18136211356609737",
+  "remote_post_id": "18112496401795637",
+  "posted_at": "2026-08-26T07:00:38.009169+09:00",
+  "error": null
 }

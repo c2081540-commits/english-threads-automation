@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000056-question.png",
   "answer_text": "✅ 正解は A. hold\n\nanswer the phone＝電話に出る\ntake a message＝伝言を受ける\ncall back＝かけ直す\nleave a message＝伝言を残す\nhold the line＝電話を切らずに待つ\n\nhold the lineは電話を切らずに待ってもらう表現です。",
   "publish_at": "2026-08-26T18:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "18166390690467727",
   "difficulty_level": "L2",
   "format": "save_list",
   "quiz_format": "save_list",
-  "correct_position": "A"
+  "correct_position": "A",
+  "remote_reply_id": "17960995329189381",
+  "remote_post_id": "18166390690467727",
+  "posted_at": "2026-08-26T18:00:33.727083+09:00",
+  "error": null
 }

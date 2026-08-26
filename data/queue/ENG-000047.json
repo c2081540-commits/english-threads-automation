@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000047-question.png",
   "answer_text": "💡 正解は C. take a break\n\ntake a breakで「休憩する」という意味になります。\n\n🗣️ Let's take a break.\n「休憩しましょう。」\n\n🔑 take a break＝休憩する",
   "publish_at": "2026-08-26T20:30:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17932591527382568",
   "difficulty_level": "L2",
   "format": "text",
   "quiz_format": "text",
-  "correct_position": "C"
+  "correct_position": "C",
+  "remote_reply_id": "18073406117710519",
+  "remote_post_id": "17932591527382568",
+  "posted_at": "2026-08-26T20:30:36.835960+09:00",
+  "error": null
 }

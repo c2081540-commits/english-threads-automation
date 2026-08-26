@@ -6,13 +6,17 @@
   "question_image": "assets/question_images/ENG-000059-question.png",
   "answer_text": "✅ 正解は D. lend\n\nborrow＝人から借りる\nlet＝人に～させる（let me use）\nlend＝人に貸す\nowe＝返す義務がある・恩がある\n\n似た語も文型ごとに確認しましょう。",
   "publish_at": "2026-08-26T15:00:00+09:00",
-  "status": "pending",
+  "status": "posted",
   "execution_eligibility": "scheduled",
-  "parent_status": "pending",
-  "answer_status": "pending",
-  "parent_post_id": null,
+  "parent_status": "posted",
+  "answer_status": "posted",
+  "parent_post_id": "17903129337550767",
   "difficulty_level": "L3",
   "format": "difference",
   "quiz_format": "difference",
-  "correct_position": "D"
+  "correct_position": "D",
+  "remote_reply_id": "18125895950511828",
+  "remote_post_id": "17903129337550767",
+  "posted_at": "2026-08-26T15:00:31.092127+09:00",
+  "error": null
 }
